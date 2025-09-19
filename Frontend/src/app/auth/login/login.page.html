@@ -1,0 +1,89 @@
+<ion-content [fullscreen]="true" class="login-content">
+  <div class="login-container">
+    <!-- Logo/Header -->
+    <div class="logo-section">
+      <ion-icon name="car-sport" size="large" color="primary"></ion-icon>
+      <h1>TrocaJá</h1>
+      <p>Conecte-se à sua conta</p>
+    </div>
+
+    <!-- Login Form -->
+    <ion-card class="login-card">
+      <ion-card-content>
+        <form [formGroup]="loginForm" (ngSubmit)="onLogin()">
+          <!-- Email Field -->
+          <ion-item>
+            <ion-icon name="mail" slot="start" color="medium"></ion-icon>
+            <ion-label position="stacked">E-mail</ion-label>
+            <ion-input 
+              type="email" 
+              formControlName="email"
+              placeholder="seu@email.com"
+              [class.ion-invalid]="isFieldInvalid('email')">
+            </ion-input>
+          </ion-item>
+          <ion-text color="danger" *ngIf="isFieldInvalid('email')">
+            <small>Por favor, insira um e-mail válido</small>
+          </ion-text>
+
+          <!-- Password Field -->
+          <ion-item>
+            <ion-icon name="lock-closed" slot="start" color="medium"></ion-icon>
+            <ion-label position="stacked">Senha</ion-label>
+            <ion-input 
+              [type]="showPassword ? 'text' : 'password'"
+              formControlName="password"
+              placeholder="Sua senha">
+            </ion-input>
+            <ion-button 
+              fill="clear" 
+              slot="end" 
+              (click)="togglePasswordVisibility()">
+              <ion-icon [name]="showPassword ? 'eye-off' : 'eye'"></ion-icon>
+            </ion-button>
+          </ion-item>
+          <ion-text color="danger" *ngIf="isFieldInvalid('password')">
+            <small>A senha deve ter pelo menos 6 caracteres</small>
+          </ion-text>
+
+        <!-- Remember Me -->
+          <ion-item>
+            <ion-checkbox formControlName="rememberMe" slot="start"></ion-checkbox>
+            <ion-label>Lembrar-me</ion-label>
+          </ion-item>
+
+          <!-- Login Button -->
+          <ion-button 
+            expand="block" 
+            type="submit" 
+            [disabled]="loginForm.invalid || isLoading"
+            class="login-button">
+            <ion-spinner *ngIf="isLoading" name="crescent"></ion-spinner>
+            <span *ngIf="!isLoading">Entrar</span>
+          </ion-button>
+
+          <!-- Forgot Password -->
+          <ion-button 
+            fill="clear" 
+            expand="block" 
+            (click)="forgotPassword()"
+            class="forgot-password-button">
+            Esqueci minha senha
+          </ion-button>
+        </form>
+      </ion-card-content>
+    </ion-card>
+
+    <!-- Register Section -->
+    <div class="register-section">
+      <p>Não tem uma conta?</p>
+      <ion-button 
+        expand="block" 
+        fill="outline" 
+        (click)="goToRegister()"
+        class="register-button">
+        Cadastrar-se
+      </ion-button>
+    </div>
+  </div>
+</ion-content>

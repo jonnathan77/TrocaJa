@@ -1,0 +1,30 @@
+.container {
+  padding: 16px;
+}
+
+ion-card {
+  margin-bottom: 16px;
+}
+
+ion-item {
+  --padding-start: 16px;
+  --padding-end: 16px;
+}
+
+ion-badge {
+  font-size: 14px;
+}
+
+.no-results {
+  text-align: center;
+  padding: 40px 20px;
+  color: var(--ion-color-medium);
+}
+
+.no-results ion-icon {
+  margin-bottom: 16px;
+}
+
+.no-results p {
+  margin: 8px 0;
+}

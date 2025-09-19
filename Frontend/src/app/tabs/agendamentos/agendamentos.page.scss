@@ -1,0 +1,36 @@
+.container {
+  padding: 16px;
+  padding-bottom: 80px; // Space for FAB
+}
+
+ion-card {
+  margin-bottom: 16px;
+}
+
+ion-item {
+  --padding-start: 16px;
+  --padding-end: 16px;
+}
+
+ion-badge {
+  font-size: 12px;
+}
+
+.no-appointments {
+  text-align: center;
+  padding: 40px 20px;
+  color: var(--ion-color-medium);
+}
+
+.no-appointments ion-icon {
+  margin-bottom: 16px;
+}
+
+.no-appointments p {
+  margin: 8px 0;
+}
+
+ion-fab-button {
+  --background: var(--ion-color-primary);
+  --background-activated: var(--ion-color-primary-shade);
+}

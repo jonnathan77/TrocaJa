@@ -1,0 +1,54 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>
+      Veículos 🚗
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">Veículos 🚗</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <div class="container">
+    <!-- Listagem de Veículos -->
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>Meus Veículos</ion-card-title>
+        <ion-card-subtitle>{{vehicles.length}} veículo(s) cadastrado(s)</ion-card-subtitle>
+      </ion-card-header>
+      
+      <ion-card-content>
+        <ion-list>
+          <ion-item *ngFor="let vehicle of vehicles" button (click)="editVehicle(vehicle.id)">
+            <ion-icon name="car" slot="start"></ion-icon>
+            <ion-label>
+              <h2>{{vehicle.brand}} {{vehicle.model}}</h2>
+              <p>{{vehicle.year}} • {{vehicle.plate}}</p>
+              <p>{{vehicle.color}} • {{vehicle.fuelType}}</p>
+            </ion-label>
+            <ion-button fill="clear" slot="end" (click)="deleteVehicle(vehicle.id, $event)">
+              <ion-icon name="trash" color="danger"></ion-icon>
+            </ion-button>
+          </ion-item>
+        </ion-list>
+
+        <div *ngIf="vehicles.length === 0" class="no-vehicles">
+          <ion-icon name="car-outline" size="large"></ion-icon>
+          <p>Nenhum veículo cadastrado</p>
+          <p>Adicione seu primeiro veículo</p>
+        </div>
+      </ion-card-content>
+    </ion-card>
+
+    <!-- Botão para adicionar veículo -->
+    <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+      <ion-fab-button (click)="addVehicle()">
+        <ion-icon name="add"></ion-icon>
+      </ion-fab-button>
+    </ion-fab>
+  </div>
+</ion-content>

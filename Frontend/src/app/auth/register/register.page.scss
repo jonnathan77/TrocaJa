@@ -1,0 +1,144 @@
+.register-content {
+  --background: #f5f5f5;
+}
+
+.register-container {
+  padding: 20px;
+  padding-bottom: 40px;
+}
+
+.header-section {
+  text-align: center;
+  margin-bottom: 24px;
+  padding: 20px 0;
+}
+
+.header-section ion-icon {
+  font-size: 3rem;
+  margin-bottom: 12px;
+}
+
+.header-section h1 {
+  font-size: 1.8rem;
+  font-weight: bold;
+  margin: 0 0 8px 0;
+  color: var(--ion-color-primary);
+}
+
+.header-section p {
+  font-size: 1rem;
+  margin: 0;
+  color: var(--ion-color-medium);
+}
+
+.register-card {
+  margin: 0;
+  border-radius: 12px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+}
+
+.register-card ion-card-content {
+  padding: 20px;
+}
+
+.user-type-section {
+  margin-bottom: 24px;
+}
+
+.user-type-section h3 {
+  margin: 0 0 12px 0;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--ion-color-dark);
+}
+
+ion-segment {
+  --background: var(--ion-color-light);
+  border-radius: 8px;
+}
+
+ion-segment-button {
+  --color: var(--ion-color-medium);
+  --color-checked: var(--ion-color-primary);
+  --background-checked: white;
+  --border-radius: 8px;
+  min-height: 48px;
+}
+
+.form-section {
+  margin-bottom: 24px;
+}
+
+.form-section h3 {
+  margin: 0 0 16px 0;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--ion-color-dark);
+  border-bottom: 2px solid var(--ion-color-light);
+  padding-bottom: 8px;
+}
+
+.register-card ion-item {
+  --background: transparent;
+  --border-color: var(--ion-color-light);
+  --border-width: 1px;
+  --border-style: solid;
+  --border-radius: 8px;
+  margin-bottom: 12px;
+  --padding-start: 16px;
+  --padding-end: 16px;
+}
+
+.register-card ion-item.ion-focused {
+  --border-color: var(--ion-color-primary);
+}
+
+.register-card ion-input {
+  --padding-top: 12px;
+  --padding-bottom: 12px;
+}
+
+.register-button {
+  margin-top: 24px;
+  --border-radius: 8px;
+  height: 48px;
+  font-weight: 600;
+}
+
+.login-link-section {
+  text-align: center;
+  margin-top: 24px;
+}
+
+.login-link-section p {
+  margin: 0 0 12px 0;
+  color: var(--ion-color-medium);
+}
+
+.login-link-button {
+  --color: var(--ion-color-primary);
+  font-weight: 600;
+}
+
+ion-text[color="danger"] {
+  margin-top: -8px;
+  margin-bottom: 8px;
+  display: block;
+}
+
+ion-checkbox {
+  margin-right: 12px;
+}
+
+ion-spinner {
+  margin-right: 8px;
+}
+
+a {
+  color: var(--ion-color-primary);
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
