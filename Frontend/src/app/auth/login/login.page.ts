@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AlertController, LoadingController } from '@ionic/angular';
 import { AuthService } from '../../services/auth.service';
-
+import { NavController } from '@ionic/angular';
 @Component({
   selector: 'app-login',
   templateUrl: 'login.page.html',
@@ -21,7 +21,8 @@ export class LoginPage implements OnInit {
     private router: Router,
     private alertController: AlertController,
     private loadingController: LoadingController,
-    private authService: AuthService
+    private authService: AuthService,
+    private navController: NavController
   ) {
     this.loginForm = this.formBuilder.group({
       email: ['', [Validators.required, Validators.email]],
@@ -43,7 +44,8 @@ export class LoginPage implements OnInit {
 
   async onLogin() {
     console.log('Login form submitted:', this.loginForm.value);
-   this.router.navigateByUrl('/tabs/home', { replaceUrl: true });
+    this.navController.navigateForward('/tabs/home');
+    console.log('Redirecionamento feito!');
   }
 
   async forgotPassword() {
