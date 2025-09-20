@@ -1,2 +1,32 @@
-// For information on how to create your own theme, please see:
-// http://ionicframework.com/docs/theming/
+/* src/theme/variables.scss */
+:root {
+  /* Cores principais */
+  --ion-color-primary: #007BFF;
+  --ion-color-primary-contrast: #ffffff;
+  --ion-color-primary-shade: #0069D9;
+  --ion-color-primary-tint: #339CFF;
+
+  --ion-color-secondary: #FF6B00;
+  --ion-color-secondary-contrast: #ffffff;
+  --ion-color-secondary-shade: #E65C00;
+  --ion-color-secondary-tint: #FF8633;
+
+  --ion-color-tertiary: #28A745;
+  --ion-color-danger: #DC3545;
+
+  /* Fundo */
+  --ion-background-color: #F5F5F5; /* para light mode */
+  --ion-background-color-rgb: 245,245,245;
+
+  --ion-color-light: #FFFFFF;       /* para cards e containers claros */
+  --ion-color-dark: #000000;        /* para dark mode automático */
+
+  /* Texto */
+  --ion-text-color: #333333;        /* texto principal */
+  --ion-text-color-secondary: #666666;
+
+  /* Cores para dark mode (serão usadas automaticamente pelo sistema) */
+  --ion-background-color-dark: #121212;
+  --ion-text-color-dark: #E0E0E0;
+  --ion-text-color-secondary-dark: #CCCCCC;
+}

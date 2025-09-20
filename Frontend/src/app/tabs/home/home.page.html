@@ -1,12 +1,10 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title>
-      Home 🏠
-    </ion-title>
+    <ion-title> Home 🏠 </ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
+<ion-content [fullscreen]="true" class="home-content">
   <ion-header collapse="condense">
     <ion-toolbar>
       <ion-title size="large">Home 🏠</ion-title>
@@ -16,74 +14,136 @@
   <div class="container">
     <ion-card>
       <ion-card-header>
-        <ion-card-title>Serviços Disponíveis</ion-card-title>
-        <ion-card-subtitle>Escolha um serviço para agendar</ion-card-subtitle>
+        <div style="display: flex; align-items: center; gap: 10px">
+          <ion-icon name="time-outline" size="large"></ion-icon>
+          <ion-card-title>Serviço em Andamento</ion-card-title>
+        </div>
       </ion-card-header>
-      
-      <ion-card-content>
-        <ion-list>
-          <ion-item button (click)="goToServiceDetail('troca-oleo')">
-            <ion-icon name="car-sport" slot="start"></ion-icon>
-            <ion-label>
-              <h2>Troca de Óleo</h2>
-              <p>Troca completa de óleo do motor</p>
-            </ion-label>
-            <ion-badge color="primary" slot="end">R$ 80</ion-badge>
-          </ion-item>
 
-          <ion-item button (click)="goToServiceDetail('alinhamento')">
-            <ion-icon name="settings" slot="start"></ion-icon>
-            <ion-label>
-              <h2>Alinhamento</h2>
-              <p>Alinhamento e balanceamento</p>
-            </ion-label>
-            <ion-badge color="primary" slot="end">R$ 120</ion-badge>
-          </ion-item>
-
-          <ion-item button (click)="goToServiceDetail('freios')">
-            <ion-icon name="stop-circle" slot="start"></ion-icon>
-            <ion-label>
-              <h2>Revisão de Freios</h2>
-              <p>Verificação e manutenção do sistema de freios</p>
-            </ion-label>
-            <ion-badge color="primary" slot="end">R$ 150</ion-badge>
-          </ion-item>
-
-          <ion-item button (click)="goToServiceDetail('bateria')">
-            <ion-icon name="battery-charging" slot="start"></ion-icon>
-            <ion-label>
-              <h2>Troca de Bateria</h2>
-              <p>Instalação de nova bateria</p>
-            </ion-label>
-            <ion-badge color="primary" slot="end">R$ 200</ion-badge>
-          </ion-item>
-        </ion-list>
+      <ion-card-content style="display: flex">
+        Troca de Pneus Dianteiros - Oficina AutoPlus
       </ion-card-content>
     </ion-card>
+
+    <div style="display: flex; margin-left: auto">
+      <h4>Suas Notificações</h4>
+    </div>
+
+    <ion-list [inset]="true">
+      <ion-item [button]="true" detail="false">
+        <div class="unread-indicator-wrapper" slot="start">
+          <div class="unread-indicator"></div>
+        </div>
+        <ion-label>
+          <strong>Seu carro está pronto para retirada!</strong>
+          <br />
+          <ion-note color="medium" class="ion-text-wrap">
+            Serviço concluido de troca de oleo e filtro de óleo.
+          </ion-note>
+        </ion-label>
+        <div class="metadata-end-wrapper" slot="end">
+          <ion-note color="medium">2 horas atrás</ion-note>
+          <ion-icon color="medium" name="chevron-forward"></ion-icon>
+        </div>
+      </ion-item>
+      <ion-item [button]="true" detail="false">
+        <div class="unread-indicator-wrapper" slot="start">
+          <div class="unread-indicator"></div>
+        </div>
+        <ion-label>
+          <strong>Lembrete: Próxima revisão em 1000km</strong>
+          <br />
+          <ion-note color="medium" class="ion-text-wrap">
+            Agende seu check-up para manter a garantia.
+          </ion-note>
+        </ion-label>
+        <div class="metadata-end-wrapper" slot="end">
+          <ion-note color="medium">Ontem</ion-note>
+          <ion-icon color="medium" name="chevron-forward"></ion-icon>
+        </div>
+      </ion-item>
+      <ion-item [button]="true" detail="false">
+        <div class="unread-indicator-wrapper" slot="start">
+          <div class="unread-indicator"></div>
+        </div>
+        <ion-label>
+          <strong>Nova promoção de pneus disponivel!</strong>
+          <br />
+          <ion-note color="medium" class="ion-text-wrap">
+            Descontos exclusivos para membros do TrocaJá.
+          </ion-note>
+        </ion-label>
+        <div class="metadata-end-wrapper" slot="end">
+          <ion-note color="medium">2 dias atrás</ion-note>
+          <ion-icon color="medium" name="chevron-forward"></ion-icon>
+        </div>
+      </ion-item>
+
+      <div style="display: flex; justify-content: center; color: transparent">
+        <ion-button> Ver Todas</ion-button>
+      </div>
+    </ion-list>
+
+    <div style="display: flex; margin-left: auto">
+      <h4>Promoções Atuais</h4>
+    </div>
 
     <ion-card>
-      <ion-card-header>
-        <ion-card-title>Acesso Rápido</ion-card-title>
-      </ion-card-header>
-      
       <ion-card-content>
-        <ion-grid>
-          <ion-row>
-            <ion-col size="6">
-              <ion-button expand="block" fill="outline" (click)="goToSearch()">
-                <ion-icon name="search" slot="start"></ion-icon>
-                Buscar Serviços
-              </ion-button>
-            </ion-col>
-            <ion-col size="6">
-              <ion-button expand="block" fill="outline" (click)="goToAppointments()">
-                <ion-icon name="calendar" slot="start"></ion-icon>
-                Meus Agendamentos
-              </ion-button>
-            </ion-col>
-          </ion-row>
-        </ion-grid>
+        <div style="overflow-x: auto; white-space: nowrap">
+          <img
+            *ngFor="let foto of fotosServico"
+            [src]="foto"
+            style="
+              height: 200px;
+              margin-right: 10px;
+              display: inline-block;
+              border-radius: 10px;
+            "
+          />
+          <div>
+            Mantenha seu carro seguro e eficiente, Oferta válida por tempo
+            limitado!
+          </div>
+        </div>
+        <div></div>
       </ion-card-content>
     </ion-card>
+
+    <div style="display: flex; margin-left: auto">
+      <h4>Para Você</h4>
+    </div>
+
+   <ion-card>
+  <ion-card-header>
+    <ion-card-title>Serviços</ion-card-title>
+  </ion-card-header>
+
+  <ion-card-content>
+    <div class="services-grid">
+      <div class="service-card" (click)="goToServiceDetail('revisao-freios')">
+        <ion-icon name="construct-outline" size="large"></ion-icon>
+        <h3>Revisão de Freios</h3>
+      </div>
+
+      <div class="service-card" (click)="goToServiceDetail('estetica-automotiva')">
+        <ion-icon name="sparkles-outline" size="large"></ion-icon>
+        <h3>Estética Automotiva</h3>
+      </div>
+
+      <div class="service-card" (click)="goToServiceDetail('servico-bateria')">
+        <ion-icon name="cog-outline" size="large"></ion-icon>
+        <h3>Serviço de Bateria</h3>
+      </div>
+
+      <div class="service-card" (click)="goToServiceDetail('acessorios-pecas')">
+        <ion-icon name="hardware-chip-outline" size="large"></ion-icon>
+        <h3>Acessórios e Peças</h3>
+      </div>
+    </div>
+  </ion-card-content>
+</ion-card>
+
+
   </div>
 </ion-content>

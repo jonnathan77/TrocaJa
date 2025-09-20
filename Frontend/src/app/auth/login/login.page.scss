@@ -117,3 +117,31 @@ ion-checkbox {
 ion-spinner {
   margin-right: 8px;
 }
+
+.login-content {
+  --background: none !important; /* remove background padrão do ion-content */
+  display: flex;
+  background: linear-gradient(135deg, #0f2027 0%, #2c5364 100%) !important;
+  align-items: center;
+  min-height: 100%;
+
+  .login-container {
+    width: 100%;
+    max-width: 400px;
+    padding: 16px;
+  }
+
+  .login-card {
+    border-radius: 16px;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.25);
+  }
+
+  h1 {
+    font-weight: 700;
+    color: #fff;
+  }
+
+  p {
+    color: #ddd;
+  }
+}

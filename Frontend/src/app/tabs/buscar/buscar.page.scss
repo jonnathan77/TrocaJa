@@ -28,3 +28,21 @@ ion-badge {
 .no-results p {
   margin: 8px 0;
 }
+
+/* buscar.page.scss */
+.filtros-scroll {
+  display: flex;
+  gap: 10px;
+  padding: 10px;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch; /* deslizar suave no mobile */
+}
+
+.filtros-scroll-text {
+  display: flex;
+  gap: 10px;
+  padding: 10px;
+  align-items: center;
+  justify-content: center;
+  min-width: 50px;
+}
