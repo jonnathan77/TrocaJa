@@ -4,7 +4,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
 import { BuscarPageRoutingModule } from './buscar-routing.module';
-
+import { SwiperModule } from 'swiper/angular';
 import { BuscarPage } from './buscar.page';
 
 @NgModule({
@@ -12,7 +12,8 @@ import { BuscarPage } from './buscar.page';
     IonicModule,
     CommonModule,
     FormsModule,
-    BuscarPageRoutingModule
+    BuscarPageRoutingModule,
+    SwiperModule,
   ],
   declarations: [BuscarPage]
 })

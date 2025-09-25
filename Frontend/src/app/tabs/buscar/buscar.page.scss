@@ -46,3 +46,58 @@ ion-badge {
   justify-content: center;
   min-width: 50px;
 }
+
+.home-content{
+   --background: var(--ion-background-color);
+  color: var(--ion-text-color);
+   padding-top: 20px; /* espaço do header */
+  padding-left: 16px;
+  padding-right: 16px;
+}
+ion-searchbar {
+  --box-shadow: none;                /* remove sombra padrão */
+  --background: transparent;          /* fundo transparente */
+  border: 0.6px solid #ccc; /* borda de 2px */
+  border-radius: 20px;                /* cantos arredondados */
+  --placeholder-color: #bbb;          /* cor do placeholder */
+  color: var(--ion-text-color);       /* cor do texto */
+}
+
+.offices-slide ion-card {
+  border-radius: 15px;
+  background: var(--ion-card-background); /* segue dark/light mode */
+  color: var(--ion-card-color);
+}
+
+.offices-slide ion-card-header {
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.offices-slide ion-card-subtitle {
+  font-size: 12px;
+  color: var(--ion-text-color);
+}
+
+.offices-slide ion-card-content p {
+  margin-bottom: 10px;
+}
+
+.horizontal-scroll {
+  overflow-x: auto;        /* permite scroll horizontal */
+  padding: 10px 0;
+}
+
+.cards-wrapper {
+  display: flex;           /* coloca os cards em linha */
+  gap: 15px;               /* espaço entre os cards */
+}
+
+.cards-wrapper ion-card {
+  min-width: 250px;        /* largura mínima do card */
+  flex-shrink: 0;          /* impede que encolha */
+  border-radius: 15px;
+  background: var(--ion-card-background);  /* segue dark/light mode */
+  color: var(--ion-card-color);
+}
+

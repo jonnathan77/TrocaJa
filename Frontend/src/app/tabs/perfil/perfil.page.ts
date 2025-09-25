@@ -29,16 +29,21 @@ export class PerfilPage implements OnInit {
   settings: AppSettings = {
     notifications: true,
     location: true,
-    darkMode: false
+    darkMode: true
   };
 
+  
   constructor(
     private alertController: AlertController,
     private authService: AuthService
   ) {}
 
   ngOnInit() {
+    
     this.userProfile = this.authService.getCurrentUser();
+    const prefersDark = JSON.parse(localStorage.getItem('darkMode') || 'false');
+    document.body.classList.toggle('dark', prefersDark);
+    this.settings.darkMode = prefersDark;
   }
 
   editProfile() {
@@ -56,6 +61,14 @@ export class PerfilPage implements OnInit {
 
     await alert.present();
   }
+
+  toggleDarkMode(event: any) {
+  const isDark = event.detail.checked;
+  document.body.classList.toggle('dark', isDark);
+  localStorage.setItem('darkMode', JSON.stringify(isDark));
+  document.body.classList.toggle('dark', event.detail.checked);
+}
+
 
   async logout() {
     const alert = await this.alertController.create({

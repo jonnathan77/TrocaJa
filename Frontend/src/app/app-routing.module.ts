@@ -1,9 +1,10 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
+import { LoginPage } from './auth/login/login.page';
 
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
-  { path: 'login', loadChildren: () => import('./auth/login/login.module').then(m => m.LoginPageModule) },
+  { path: 'login', component: LoginPage },
   { path: 'register', loadChildren: () => import('./auth/register/register.module').then(m => m.RegisterPageModule) },
   
   // Aqui está o módulo Tabs, que será pai das 5 páginas principais

@@ -1,4 +1,4 @@
 .tabcontent{
-  --background: none !important;
-  background: linear-gradient(135deg, #0f2027 0%, #183744 100%) !important;
+   --background: var(--ion-background-color) !important;
+  color: var(--ion-text-color);
 }

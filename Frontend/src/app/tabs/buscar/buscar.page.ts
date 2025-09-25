@@ -14,6 +14,7 @@ interface Service {
   lng: number;
 }
 
+
 @Component({
   selector: 'app-buscar',
   templateUrl: 'buscar.page.html',
@@ -30,6 +31,19 @@ export class BuscarPage implements AfterViewInit {
   selectedCategory = '';
   selectedLocation = '';
   maxPrice = 500;
+
+  
+  offices = [
+    { name: 'Oficina do João', service: 'Troca de óleo', distance: 1.2 },
+    { name: 'Mecânica Silva', service: 'Mecânica geral', distance: 2.5 },
+    { name: 'Auto Center Car', service: 'Suspensão e freios', distance: 3.1 },
+    { name: 'Oficina Rapidão', service: 'Elétrica automotiva', distance: 0.8 }
+  ];
+    slideOpts = {
+    slidesPerView: 1.2,   // mostra parte do próximo card
+    spaceBetween: 15,      // espaço entre slides
+    freeMode: true
+  };
 
   filtros: string[] = ['Todos', 'Mecânica Geral', 'Óleo', 'Revisão'];
   filtroSelecionado = 'Todos';
@@ -66,6 +80,11 @@ async ngAfterViewInit() {
     } catch (err) {
       console.error('Erro ao pegar localização', err);
     }
+  }
+
+    viewDetails(office: any) {
+    console.log('Ver detalhes de:', office);
+    // aqui você pode abrir modal ou navegar pra página de detalhes
   }
 
   // adiciona marcadores das oficinas (guarda em officeMarkers para manipular)

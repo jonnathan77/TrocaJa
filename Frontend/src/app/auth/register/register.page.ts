@@ -1,82 +1,64 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, AbstractControl } from '@angular/forms';
-import { Router } from '@angular/router';
-import { AlertController, LoadingController } from '@ionic/angular';
+import { Component } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AlertController, NavController } from '@ionic/angular';
 import { AuthService } from '../../services/auth.service';
-
+import { CommonModule } from '@angular/common';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { IonicModule } from '@ionic/angular';
 @Component({
   selector: 'app-register',
-  templateUrl: 'register.page.html',
-  styleUrls: ['register.page.scss'],
-  standalone: false,
+  templateUrl: './register.page.html',
+  styleUrls: ['./register.page.scss'],
+  standalone: true,
+  imports: [
+    CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
+    IonicModule, // 🔹 Importa TODOS os componentes do Ionic: ion-input, ion-button, etc.
+  ],
 })
-export class RegisterPage implements OnInit {
-
+export class RegisterPage {
   registerForm: FormGroup;
-  userType: 'user' | 'provider' = 'user';
+  isLoading = false;
   showPassword = false;
   showConfirmPassword = false;
   acceptTerms = false;
-  isLoading = false;
+  userType: string = 'user'; // padrão usuário
 
   constructor(
-    private formBuilder: FormBuilder,
-    private router: Router,
+    private fb: FormBuilder,
+    private authService: AuthService,
     private alertController: AlertController,
-    private loadingController: LoadingController,
-    private authService: AuthService
+    private navController: NavController
   ) {
-    this.registerForm = this.formBuilder.group({
-      fullName: ['', [Validators.required]],
-      email: ['', [Validators.required, Validators.email]],
-      phone: ['', [Validators.required]],
-      businessName: [''],
-      address: [''],
-      cnpj: [''],
-      password: ['', [Validators.required, Validators.minLength(6)]],
-      confirmPassword: ['', [Validators.required]]
-    }, { validators: this.passwordMatchValidator });
+    this.registerForm = this.fb.group(
+      {
+        fullName: ['', Validators.required],
+        email: ['', [Validators.required, Validators.email]],
+        phone: ['', Validators.required],
+        businessName: [''],
+        address: [''],
+        cnpj: [''],
+        password: ['', [Validators.required, Validators.minLength(6)]],
+        confirmPassword: ['', Validators.required],
+      },
+      {
+        validators: this.passwordsMatchValidator,
+      }
+    );
   }
 
-  ngOnInit() {
-    // Update form validation based on user type
-    this.updateFormValidation();
+  // 👉 valida se senha e confirmação são iguais
+  passwordsMatchValidator(form: FormGroup) {
+    const password = form.get('password')?.value;
+    const confirmPassword = form.get('confirmPassword')?.value;
+    return password === confirmPassword ? null : { mismatch: true };
   }
 
-  passwordMatchValidator(control: AbstractControl): {[key: string]: any} | null {
-    const password = control.get('password');
-    const confirmPassword = control.get('confirmPassword');
-    
-    if (password && confirmPassword && password.value !== confirmPassword.value) {
-      return { 'passwordMismatch': true };
-    }
-    return null;
-  }
-
-  isFieldInvalid(fieldName: string): boolean {
-    const field = this.registerForm.get(fieldName);
-    return field ? field.invalid && (field.dirty || field.touched) : false;
-  }
-
-  onUserTypeChange(event: any) {
-    this.userType = event.detail.value;
-    this.updateFormValidation();
-  }
-
-  updateFormValidation() {
-    const businessNameControl = this.registerForm.get('businessName');
-    const addressControl = this.registerForm.get('address');
-
-    if (this.userType === 'provider') {
-      businessNameControl?.setValidators([Validators.required]);
-      addressControl?.setValidators([Validators.required]);
-    } else {
-      businessNameControl?.clearValidators();
-      addressControl?.clearValidators();
-    }
-
-    businessNameControl?.updateValueAndValidity();
-    addressControl?.updateValueAndValidity();
+  // 👉 checa se o campo é inválido
+  isFieldInvalid(field: string): boolean {
+    const control = this.registerForm.get(field);
+    return !!(control && control.invalid && (control.dirty || control.touched));
   }
 
   togglePasswordVisibility() {
@@ -87,71 +69,66 @@ export class RegisterPage implements OnInit {
     this.showConfirmPassword = !this.showConfirmPassword;
   }
 
+  async onUserTypeChange(event: any) {
+    this.userType = event.detail.value;
+  }
+
   async onRegister() {
     if (this.registerForm.valid && this.acceptTerms) {
       this.isLoading = true;
-      
-      try {
-        const formData = this.registerForm.value;
-        const userData = {
-          ...formData,
-          userType: this.userType
-        };
-        
-        await this.authService.register(userData);
-        
-        // Show success message
-        const alert = await this.alertController.create({
-          header: 'Sucesso!',
-          message: 'Conta criada com sucesso! Você já pode fazer login.',
-          buttons: [
-            {
-              text: 'OK',
-              handler: () => {
-                this.router.navigate(['/login']);
-              }
-            }
-          ]
-        });
-        await alert.present();
-        
-      } catch (error) {
-        // Show error message
-        const alert = await this.alertController.create({
-          header: 'Erro no Cadastro',
-          message: 'Ocorreu um erro ao criar sua conta. Tente novamente.',
-          buttons: ['OK']
-        });
-        await alert.present();
-      } finally {
-        this.isLoading = false;
-      }
+      const formData = this.registerForm.value;
+
+      const userData = {
+        fullName: formData.fullName,
+        email: formData.email,
+        phone: formData.phone,
+        password: formData.password,
+        userType: this.userType,
+        ...(this.userType === 'provider' && {
+          businessName: formData.businessName,
+          address: formData.address,
+          cnpj: formData.cnpj,
+        }),
+      };
+
+      this.authService.register(userData).subscribe({
+        next: async () => {
+          const alert = await this.alertController.create({
+            header: 'Sucesso!',
+            message: 'Cadastro realizado com sucesso!',
+            buttons: ['OK'],
+          });
+          await alert.present();
+
+          this.navController.navigateForward('/login');
+        },
+        error: async (err) => {
+          const alert = await this.alertController.create({
+            header: 'Erro no Cadastro',
+            message:
+              err.error?.error || 'Não foi possível realizar o cadastro.',
+            buttons: ['OK'],
+          });
+          await alert.present();
+        },
+        complete: () => {
+          this.isLoading = false;
+        },
+      });
     }
   }
 
-
-  async showTerms(event: Event) {
-    event.preventDefault();
-    const alert = await this.alertController.create({
-      header: 'Termos de Uso',
-      message: 'Aqui estariam os termos de uso da aplicação TrocaJá.',
-      buttons: ['Fechar']
-    });
-    await alert.present();
-  }
-
-  async showPrivacy(event: Event) {
-    event.preventDefault();
-    const alert = await this.alertController.create({
-      header: 'Política de Privacidade',
-      message: 'Aqui estaria a política de privacidade da aplicação TrocaJá.',
-      buttons: ['Fechar']
-    });
-    await alert.present();
-  }
-
   goToLogin() {
-    this.router.navigate(['/login']);
+    this.navController.navigateBack('/login');
   }
 
+  showTerms(event: Event) {
+    event.preventDefault();
+    console.log('Exibir Termos de Uso');
+  }
+
+  showPrivacy(event: Event) {
+    event.preventDefault();
+    console.log('Exibir Política de Privacidade');
+  }
 }

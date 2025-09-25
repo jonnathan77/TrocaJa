@@ -23,7 +23,10 @@
           <!-- User Type Selection -->
           <div class="user-type-section">
             <h3>Tipo de Conta</h3>
-            <ion-segment [(ngModel)]="userType" (ionChange)="onUserTypeChange($event)">
+            <ion-segment 
+              [(ngModel)]="userType" 
+              [ngModelOptions]="{standalone: true}" 
+              (ionChange)="onUserTypeChange($event)">
               <ion-segment-button value="user">
                 <ion-icon name="person"></ion-icon>
                 <ion-label>Usuário</ion-label>
@@ -172,7 +175,11 @@
 
           <!-- Terms and Conditions -->
           <ion-item>
-            <ion-checkbox [(ngModel)]="acceptTerms" slot="start"></ion-checkbox>
+            <ion-checkbox 
+              [(ngModel)]="acceptTerms" 
+              [ngModelOptions]="{standalone: true}" 
+              slot="start">
+            </ion-checkbox>
             <ion-label>
               <p>Eu aceito os <a href="#" (click)="showTerms($event)">Termos de Uso</a> e <a href="#" (click)="showPrivacy($event)">Política de Privacidade</a></p>
             </ion-label>

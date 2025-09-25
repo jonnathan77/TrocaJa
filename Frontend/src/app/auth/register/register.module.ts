@@ -15,6 +15,5 @@ import { RegisterPage } from './register.page';
     ReactiveFormsModule,
     RegisterPageRoutingModule
   ],
-  declarations: [RegisterPage]
 })
 export class RegisterPageModule {}

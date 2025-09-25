@@ -20,10 +20,9 @@ ion-button {
 }
 
 .home-content{
-  --background: none !important;
-  background: linear-gradient(135deg, #0f2027 0%, #2c5364 100%) !important;
+   --background: var(--ion-background-color);
+  color: var(--ion-text-color);
 }
-
 .services-grid {
   display: flex;
   flex-wrap: wrap; /* permite ir para a próxima linha */

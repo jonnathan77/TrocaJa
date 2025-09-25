@@ -43,3 +43,24 @@ on-app, ion-content {
   background-color: var(--ion-background-color) !important;
   color: var(--ion-text-color) !important; /* garante cor do texto global */
 }
+ion-card {
+  background: var(--ion-card-background) !important;
+  color: var(--ion-card-color) !important;
+}
+ion-card-header, 
+ion-card-content {
+  background: var(--ion-card-background) !important; 
+  color: var(--ion-card-color) !important;
+}
+
+/* Cards */
+ion-card, ion-card-header, ion-card-content {
+  background: var(--ion-card-background) !important;
+  color: var(--ion-card-color) !important;
+}
+
+/* Items */
+ion-item {
+  --background: var(--ion-item-background) !important;
+  color: var(--ion-item-color) !important;
+}

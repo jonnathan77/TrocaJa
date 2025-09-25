@@ -1,6 +1,6 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title> Home 🏠 </ion-title>
+    <ion-title class="ion-text-center"> Home 🏠 </ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -30,7 +30,11 @@
     </div>
 
     <ion-list [inset]="true">
-      <ion-item [button]="true" detail="false">
+      <ion-item
+        style="border: 1px solid #e9e9e9; border-radius: 10px"
+        [button]="true"
+        detail="false"
+      >
         <div class="unread-indicator-wrapper" slot="start">
           <div class="unread-indicator"></div>
         </div>
@@ -46,7 +50,11 @@
           <ion-icon color="medium" name="chevron-forward"></ion-icon>
         </div>
       </ion-item>
-      <ion-item [button]="true" detail="false">
+      <ion-item
+        style="border: 1px solid #e9e9e9; border-radius: 10px"
+        [button]="true"
+        detail="false"
+      >
         <div class="unread-indicator-wrapper" slot="start">
           <div class="unread-indicator"></div>
         </div>
@@ -62,7 +70,11 @@
           <ion-icon color="medium" name="chevron-forward"></ion-icon>
         </div>
       </ion-item>
-      <ion-item [button]="true" detail="false">
+      <ion-item
+        style="border: 1px solid #e9e9e9; border-radius: 10px"
+        [button]="true"
+        detail="false"
+      >
         <div class="unread-indicator-wrapper" slot="start">
           <div class="unread-indicator"></div>
         </div>
@@ -79,8 +91,16 @@
         </div>
       </ion-item>
 
-      <div style="display: flex; justify-content: center; color: transparent">
-        <ion-button> Ver Todas</ion-button>
+      <div
+        style="
+          display: flex;
+          justify-content: center;
+          background-color: transparent;
+        "
+      >
+        <ion-button fill="solid" style="background-color: white; color: black">
+          Ver Todas
+        </ion-button>
       </div>
     </ion-list>
 
@@ -114,36 +134,46 @@
       <h4>Para Você</h4>
     </div>
 
-   <ion-card>
-  <ion-card-header>
-    <ion-card-title>Serviços</ion-card-title>
-  </ion-card-header>
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>Serviços</ion-card-title>
+      </ion-card-header>
 
-  <ion-card-content>
-    <div class="services-grid">
-      <div class="service-card" (click)="goToServiceDetail('revisao-freios')">
-        <ion-icon name="construct-outline" size="large"></ion-icon>
-        <h3>Revisão de Freios</h3>
-      </div>
+      <ion-card-content>
+        <div class="services-grid">
+          <div
+            class="service-card"
+            (click)="goToServiceDetail('revisao-freios')"
+          >
+            <ion-icon name="construct-outline" style="color: rgb(27, 27, 27);" size="large"></ion-icon>
+            <h3>Revisão de Freios</h3>
+          </div>
 
-      <div class="service-card" (click)="goToServiceDetail('estetica-automotiva')">
-        <ion-icon name="sparkles-outline" size="large"></ion-icon>
-        <h3>Estética Automotiva</h3>
-      </div>
+          <div
+            class="service-card"
+            (click)="goToServiceDetail('estetica-automotiva')"
+          >
+            <ion-icon name="sparkles-outline" style="color: rgb(27, 27, 27);" size="large"></ion-icon>
+            <h3>Estética Automotiva</h3>
+          </div>
 
-      <div class="service-card" (click)="goToServiceDetail('servico-bateria')">
-        <ion-icon name="cog-outline" size="large"></ion-icon>
-        <h3>Serviço de Bateria</h3>
-      </div>
+          <div
+            class="service-card"
+            (click)="goToServiceDetail('servico-bateria')"
+          >
+            <ion-icon name="cog-outline" style="color: rgb(27, 27, 27);" size="large"></ion-icon>
+            <h3>Serviço de Bateria</h3>
+          </div>
 
-      <div class="service-card" (click)="goToServiceDetail('acessorios-pecas')">
-        <ion-icon name="hardware-chip-outline" size="large"></ion-icon>
-        <h3>Acessórios e Peças</h3>
-      </div>
-    </div>
-  </ion-card-content>
-</ion-card>
-
-
+          <div
+            class="service-card"
+            (click)="goToServiceDetail('acessorios-pecas')"
+          >
+            <ion-icon name="hardware-chip-outline" style="color: rgb(27, 27, 27);" size="large"></ion-icon>
+            <h3>Acessórios e Peças</h3>
+          </div>
+        </div>
+      </ion-card-content>
+    </ion-card>
   </div>
 </ion-content>

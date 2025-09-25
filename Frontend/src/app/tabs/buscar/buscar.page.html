@@ -1,6 +1,6 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title> Buscar 🔍 </ion-title>
+    <ion-title class="ion-text-center">Buscar 🔍</ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -11,10 +11,10 @@
     </ion-toolbar>
   </ion-header>
 
-  <div class="container">
+  <div class="container" class="home-content">
     <!-- Campo de busca -->
     <ion-searchbar
-      style="border-radius: 20px"
+      style="border-radius: 20px; color: rgb(187, 187, 187); box-shadow: none"
       [(ngModel)]="searchTerm"
       (ionInput)="onSearch($event)"
       placeholder="Buscar serviços..."
@@ -116,11 +116,10 @@
         id="map"
         style="height: 300px; width: 100%; border-radius: 10px"
       ></div>
-      <div style="text-align: center; margin-top: 10px">
-      </div>
+      <div style="text-align: center; margin-top: 10px"></div>
     </ion-card>
-
-    <!-- Resultados -->
+<!-- 
+    Resultados
     <ion-card>
       <ion-card-header>
         <ion-card-title
@@ -153,6 +152,23 @@
           <p>Tente ajustar os filtros ou termo de busca</p>
         </div>
       </ion-card-content>
+    </ion-card> -->
+
+<div class="horizontal-scroll">
+  <div class="cards-wrapper">
+    <ion-card *ngFor="let office of offices">
+      <ion-card-header>
+        <ion-card-subtitle>{{ office.service }}</ion-card-subtitle>
+        <ion-card-title>{{ office.name }}</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <p>Distância: {{ office.distance }} km</p>
+        <ion-button expand="block" (click)="viewDetails(office)">Ver Detalhes</ion-button>
+      </ion-card-content>
     </ion-card>
+  </div>
+</div>
+
+
   </div>
 </ion-content>

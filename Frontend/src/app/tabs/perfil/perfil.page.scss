@@ -28,6 +28,11 @@ ion-card {
   font-size: 1.2em;
   font-weight: bold;
 }
+.home-content{
+   --background: var(--ion-background-color);
+  color: var(--ion-text-color);
+}
+
 
 .profile-details p {
   margin: 4px 0;

@@ -1,15 +1,13 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title>
-      Perfil 👤
-    </ion-title>
+    <ion-title class="ion-text-center"> Perfil 👤 </ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
+<ion-content [fullscreen]="true" class="home-content">
   <ion-header collapse="condense">
     <ion-toolbar>
-      <ion-title size="large">Perfil 👤</ion-title>
+      <ion-title size="large">Perfil do Usuário</ion-title>
     </ion-toolbar>
   </ion-header>
 
@@ -19,11 +17,14 @@
       <ion-card-header>
         <ion-card-title>Dados Pessoais</ion-card-title>
       </ion-card-header>
-      
+
       <ion-card-content>
         <div class="profile-info">
           <ion-avatar class="profile-avatar">
-            <img src="https://via.placeholder.com/100x100/4CAF50/FFFFFF?text=U" alt="Profile">
+            <img
+              src="../../../assets/imagens/home/imagemExemplo.jpg"
+              alt="Profile"
+            />
           </ion-avatar>
           <div class="profile-details">
             <h2>{{userProfile?.fullName}}</h2>
@@ -76,7 +77,7 @@
       <ion-card-header>
         <ion-card-title>Configurações do App</ion-card-title>
       </ion-card-header>
-      
+
       <ion-card-content>
         <ion-list>
           <ion-item>
@@ -85,7 +86,10 @@
               <h3>Notificações</h3>
               <p>Receber lembretes de agendamentos</p>
             </ion-label>
-            <ion-toggle [(ngModel)]="settings.notifications" slot="end"></ion-toggle>
+            <ion-toggle
+              [(ngModel)]="settings.notifications"
+              slot="end"
+            ></ion-toggle>
           </ion-item>
 
           <ion-item>
@@ -103,7 +107,12 @@
               <h3>Modo Escuro</h3>
               <p>Ativar tema escuro</p>
             </ion-label>
-            <ion-toggle [(ngModel)]="settings.darkMode" slot="end"></ion-toggle>
+            <ion-toggle
+              slot="end"
+              [(ngModel)]="settings.darkMode"
+              (ionChange)="toggleDarkMode($event)"
+            >
+            </ion-toggle>
           </ion-item>
 
           <ion-item button (click)="changePassword()">
@@ -121,7 +130,11 @@
               <h3>Sair</h3>
               <p>Fazer logout da conta</p>
             </ion-label>
-            <ion-icon name="chevron-forward" slot="end" color="danger"></ion-icon>
+            <ion-icon
+              name="chevron-forward"
+              slot="end"
+              color="danger"
+            ></ion-icon>
           </ion-item>
         </ion-list>
       </ion-card-content>

@@ -30,3 +30,76 @@
   --ion-text-color-dark: #E0E0E0;
   --ion-text-color-secondary-dark: #CCCCCC;
 }
+
+:root {
+  --ion-background-color: #ffffff !important;
+  --ion-text-color: #000000 !important;
+}
+
+:root .dark {
+  --ion-background-color: #000000 !important;
+  --ion-text-color: #ffffff !important;
+}
+:root {
+  /* Tema Claro */
+  --ion-background-color: #ffffff !important;   /* fundo branco */
+  --ion-text-color: #000000 !important;         /* texto preto */
+}
+
+:root .dark {
+  /* Tema Escuro */
+  --ion-background-color: #000000 !important;   /* fundo preto */
+  --ion-text-color: #ffffff !important;         /* texto branco */
+}
+
+:root {
+  /* Tema Claro */
+  --ion-background-color: #ffffff !important;
+  --ion-text-color: #000000 !important;
+
+  /* Cards no modo claro */
+  --ion-card-background: #ffffff !important; /* fundo branco */
+  --ion-card-color: #000000 !important;      /* texto preto */
+}
+
+:root .dark {
+  /* Tema Escuro */
+  --ion-background-color: #000000 !important;
+  --ion-text-color: #ffffff !important;
+
+  /* Cards no modo escuro */
+  --ion-card-background: #1e1e1e !important ; /* preto (ou cinza escuro, se quiser) */
+  --ion-card-color: #ffffff !important;      /* texto branco */
+}
+
+:root {
+  /* Tema Claro */
+  --ion-toolbar-background: #ffffff !important ;
+  --ion-toolbar-color: #000000 !important;
+}
+
+:root .dark {
+  /* Tema Escuro */
+  --ion-toolbar-background: #000000 !important;
+  --ion-toolbar-color: #ffffff !important;
+}
+
+:root {
+  /* Tema Claro */
+  --ion-background-color: #ffffff !important;   /* fundo da página */
+  --ion-text-color: #000000 !important;         /* texto */
+  --ion-card-background: #ffffff !important;    /* fundo dos cards */
+  --ion-card-color: #000000 !important;         /* texto dos cards */
+  --ion-item-background: #ffffff !important;    /* fundo dos ion-items */
+  --ion-item-color: #000000 !important;         /* texto dos ion-items */
+}
+
+:root .dark {
+  /* Tema Escuro */
+  --ion-background-color: #000000 !important;   /* fundo da página */
+  --ion-text-color: #ffffff !important;         /* texto */
+  --ion-card-background: #1e1e1e !important;     /* fundo dos cards */
+  --ion-card-color: #ffffff !important;         /* texto dos cards */
+  --ion-item-background: #1e1e1e !important;    /* fundo dos ion-items */
+  --ion-item-color: #ffffff !important;         /* texto dos ion-items */
+}
