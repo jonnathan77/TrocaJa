@@ -101,20 +101,6 @@
             <ion-toggle [(ngModel)]="settings.location" slot="end"></ion-toggle>
           </ion-item>
 
-          <ion-item>
-            <ion-icon name="moon" slot="start"></ion-icon>
-            <ion-label>
-              <h3>Modo Escuro</h3>
-              <p>Ativar tema escuro</p>
-            </ion-label>
-            <ion-toggle
-              slot="end"
-              [(ngModel)]="settings.darkMode"
-              (ionChange)="toggleDarkMode($event)"
-            >
-            </ion-toggle>
-          </ion-item>
-
           <ion-item button (click)="changePassword()">
             <ion-icon name="lock-closed" slot="start"></ion-icon>
             <ion-label>

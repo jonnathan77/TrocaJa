@@ -4,6 +4,7 @@ const cors = require('cors');
 const logger = require('morgan');
 const cookieParser = require('cookie-parser');
 const usersRouter = require('./routes/users');
+const oficinaRouter = require('./routes/oficina');
 
 const app = express();
 
@@ -32,6 +33,7 @@ app.use(cookieParser());
 // ------------------------
 app.use('/users', usersRouter);
 
+app.use('/oficina', oficinaRouter);
 // ------------------------
 // 4️⃣ Tratamento 404
 // ------------------------

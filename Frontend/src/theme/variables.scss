@@ -1,6 +1,5 @@
-/* src/theme/variables.scss */
 :root {
-  /* Cores principais */
+  /* ===== Cores principais ===== */
   --ion-color-primary: #007BFF;
   --ion-color-primary-contrast: #ffffff;
   --ion-color-primary-shade: #0069D9;
@@ -14,92 +13,35 @@
   --ion-color-tertiary: #28A745;
   --ion-color-danger: #DC3545;
 
-  /* Fundo */
-  --ion-background-color: #F5F5F5; /* para light mode */
-  --ion-background-color-rgb: 245,245,245;
+  /* ===== Fundo e texto ===== */
+  --ion-background-color: #121212 !important;  /* fundo geral */
+  --ion-text-color: #E0E0E0 !important;         /* texto padrão */
+  --ion-text-color-secondary: #B0B0B0;          /* texto secundário */
 
-  --ion-color-light: #FFFFFF;       /* para cards e containers claros */
-  --ion-color-dark: #000000;        /* para dark mode automático */
+  /* ===== Cards ===== */
+  --ion-card-background: #1e1e1e !important;
+  --ion-card-color: #ffffff !important;
 
-  /* Texto */
-  --ion-text-color: #333333;        /* texto principal */
-  --ion-text-color-secondary: #666666;
+  /* ===== Itens ===== */
+  --ion-item-background: #1e1e1e !important;
+  --ion-item-color: #ffffff !important;
 
-  /* Cores para dark mode (serão usadas automaticamente pelo sistema) */
-  --ion-background-color-dark: #121212;
-  --ion-text-color-dark: #E0E0E0;
-  --ion-text-color-secondary-dark: #CCCCCC;
-}
-
-:root {
-  --ion-background-color: #ffffff !important;
-  --ion-text-color: #000000 !important;
-}
-
-:root .dark {
-  --ion-background-color: #000000 !important;
-  --ion-text-color: #ffffff !important;
-}
-:root {
-  /* Tema Claro */
-  --ion-background-color: #ffffff !important;   /* fundo branco */
-  --ion-text-color: #000000 !important;         /* texto preto */
-}
-
-:root .dark {
-  /* Tema Escuro */
-  --ion-background-color: #000000 !important;   /* fundo preto */
-  --ion-text-color: #ffffff !important;         /* texto branco */
-}
-
-:root {
-  /* Tema Claro */
-  --ion-background-color: #ffffff !important;
-  --ion-text-color: #000000 !important;
-
-  /* Cards no modo claro */
-  --ion-card-background: #ffffff !important; /* fundo branco */
-  --ion-card-color: #000000 !important;      /* texto preto */
-}
-
-:root .dark {
-  /* Tema Escuro */
-  --ion-background-color: #000000 !important;
-  --ion-text-color: #ffffff !important;
-
-  /* Cards no modo escuro */
-  --ion-card-background: #1e1e1e !important ; /* preto (ou cinza escuro, se quiser) */
-  --ion-card-color: #ffffff !important;      /* texto branco */
-}
-
-:root {
-  /* Tema Claro */
-  --ion-toolbar-background: #ffffff !important ;
-  --ion-toolbar-color: #000000 !important;
-}
-
-:root .dark {
-  /* Tema Escuro */
-  --ion-toolbar-background: #000000 !important;
+  /* ===== Toolbar ===== */
+  --ion-toolbar-background: #1a1a1a !important;
   --ion-toolbar-color: #ffffff !important;
-}
 
-:root {
-  /* Tema Claro */
-  --ion-background-color: #ffffff !important;   /* fundo da página */
-  --ion-text-color: #000000 !important;         /* texto */
-  --ion-card-background: #ffffff !important;    /* fundo dos cards */
-  --ion-card-color: #000000 !important;         /* texto dos cards */
-  --ion-item-background: #ffffff !important;    /* fundo dos ion-items */
-  --ion-item-color: #000000 !important;         /* texto dos ion-items */
-}
+  /* ===== Inputs, Botões e Bordas ===== */
+  --ion-border-color: #2a2a2a;
+  --ion-color-step-150: #2a2a2a;
+  --ion-color-step-250: #3a3a3a;
+  --ion-color-step-350: #4a4a4a;
 
-:root .dark {
-  /* Tema Escuro */
-  --ion-background-color: #000000 !important;   /* fundo da página */
-  --ion-text-color: #ffffff !important;         /* texto */
-  --ion-card-background: #1e1e1e !important;     /* fundo dos cards */
-  --ion-card-color: #ffffff !important;         /* texto dos cards */
-  --ion-item-background: #1e1e1e !important;    /* fundo dos ion-items */
-  --ion-item-color: #ffffff !important;         /* texto dos ion-items */
+  /* ===== Scrollbar customizada (opcional) ===== */
+  ::-webkit-scrollbar {
+    width: 8px;
+  }
+  ::-webkit-scrollbar-thumb {
+    background-color: #333;
+    border-radius: 4px;
+  }
 }

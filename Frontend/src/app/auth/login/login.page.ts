@@ -1,7 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { AlertController, LoadingController, IonicModule, NavController } from '@ionic/angular';
+import {
+  AlertController,
+  LoadingController,
+  IonicModule,
+  NavController,
+} from '@ionic/angular';
 import { provideHttpClient } from '@angular/common/http';
 import { importProvidersFrom } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
@@ -13,12 +18,7 @@ import { CommonModule } from '@angular/common';
   templateUrl: './login.page.html',
   styleUrls: ['./login.page.scss'],
   standalone: true,
-  imports: [
-    IonicModule,
-    FormsModule,
-    ReactiveFormsModule,
-    CommonModule
-  ]
+  imports: [IonicModule, FormsModule, ReactiveFormsModule, CommonModule],
 })
 export class LoginPage implements OnInit {
   loginForm: FormGroup;
@@ -36,7 +36,7 @@ export class LoginPage implements OnInit {
     this.loginForm = this.formBuilder.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(6)]],
-      rememberMe: [false]
+      rememberMe: [false],
     });
   }
 
@@ -52,38 +52,29 @@ export class LoginPage implements OnInit {
   }
 
   async onLogin() {
-    console.log('Login form submitted:', this.loginForm.value);
-     if (this.loginForm.valid) {
-      this.isLoading = true;
-      
-      try {
-        const { email, password } = this.loginForm.value;
-        await this.authService.login(email, password);
-        
-        // Show success message
+    const { email, password } = this.loginForm.value;
+    this.authService.login(email, password).subscribe({
+      next: async (user) => {
         const alert = await this.alertController.create({
           header: 'Sucesso!',
           message: 'Login realizado com sucesso!',
-          buttons: ['OK']
+          buttons: ['OK'],
         });
         await alert.present();
-
-        // Navigate to tabs
-        
-      } catch (error) {
-        // Show error message
+        this.navController.navigateForward('/tabs/home');
+      },
+      error: async () => {
         const alert = await this.alertController.create({
           header: 'Erro no Login',
           message: 'E-mail ou senha incorretos. Tente novamente.',
-          buttons: ['OK']
+          buttons: ['OK'],
         });
         await alert.present();
-      } finally {
-    this.navController.navigateForward('/tabs/home');
+      },
+      complete: () => {
         this.isLoading = false;
-      }
-    }
-    console.log('Redirecionamento feito!');
+      },
+    });
   }
 
   async forgotPassword() {
@@ -94,13 +85,13 @@ export class LoginPage implements OnInit {
         {
           name: 'email',
           type: 'email',
-          placeholder: 'seu@email.com'
-        }
+          placeholder: 'seu@email.com',
+        },
       ],
       buttons: [
         {
           text: 'Cancelar',
-          role: 'cancel'
+          role: 'cancel',
         },
         {
           text: 'Enviar',
@@ -113,9 +104,9 @@ export class LoginPage implements OnInit {
                 this.showForgotPasswordError();
               }
             }
-          }
-        }
-      ]
+          },
+        },
+      ],
     });
 
     await alert.present();
@@ -124,8 +115,9 @@ export class LoginPage implements OnInit {
   private async showForgotPasswordSuccess() {
     const alert = await this.alertController.create({
       header: 'E-mail Enviado',
-      message: 'Verifique sua caixa de entrada para as instruções de recuperação de senha.',
-      buttons: ['OK']
+      message:
+        'Verifique sua caixa de entrada para as instruções de recuperação de senha.',
+      buttons: ['OK'],
     });
     await alert.present();
   }
@@ -133,8 +125,9 @@ export class LoginPage implements OnInit {
   private async showForgotPasswordError() {
     const alert = await this.alertController.create({
       header: 'Erro',
-      message: 'Não foi possível enviar o e-mail de recuperação. Tente novamente.',
-      buttons: ['OK']
+      message:
+        'Não foi possível enviar o e-mail de recuperação. Tente novamente.',
+      buttons: ['OK'],
     });
     await alert.present();
   }
@@ -143,5 +136,4 @@ export class LoginPage implements OnInit {
     console.log('Navigating to register page...');
     this.router.navigate(['/register']);
   }
-
 }

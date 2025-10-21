@@ -4,7 +4,10 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true" class="home-content">
+<ion-content
+  [fullscreen]="true"
+  class="home-content brand-scroll products-content"
+>
   <ion-header collapse="condense">
     <ion-toolbar>
       <ion-title size="large">Home 🏠</ion-title>
@@ -12,7 +15,7 @@
   </ion-header>
 
   <div class="container">
-    <ion-card>
+    <!-- <ion-card>
       <ion-card-header>
         <div style="display: flex; align-items: center; gap: 10px">
           <ion-icon name="time-outline" size="large"></ion-icon>
@@ -174,6 +177,70 @@
           </div>
         </div>
       </ion-card-content>
-    </ion-card>
+    </ion-card>-->
+    <ion-item fill="outline" style="border-radius: 10px">
+      <ion-icon name="search-outline" slot="start" color="medium"></ion-icon>
+      <ion-input
+        label="Busca por placa (ex: ABC1D23)"
+        label-placement="floating"
+        placeholder="Digite sua placa:"
+      >
+      </ion-input>
+    </ion-item>
+
+    <div style="display: flex; margin-left: auto; padding-top: 20px">
+      <h6>Ou selecione pela marca</h6>
+    </div>
+
+    <h2 class="section-title">Marcas de Veículos</h2>
+
+    <div class="brand-container">
+      <div class="brand-row">
+        <div class="brand-card" *ngFor="let brand of brands">
+          <ion-avatar class="brand-logo">
+            <img [src]="brand.logo" alt="{{ brand.name }}" />
+          </ion-avatar>
+          <p>{{ brand.name }}</p>
+        </div>
+      </div>
+    </div>
+
+    <h2 class="section-title">Categorias</h2>
+
+<div class="category-section">
+  <div class="category-row">
+    <div class="category-card" *ngFor="let category of categories">
+      <ion-icon [name]="category.icon" class="category-icon"></ion-icon>
+      <p class="category-name">{{ category.name }}</p>
+    </div>
+  </div>
+</div>
+
+
+    <h2 class="section-title">Produtos Sugeridos</h2>
+
+    <div class="product-grid">
+      <div class="product-card" *ngFor="let product of products">
+        <div class="product-image">
+          <img [src]="product.image" alt="{{ product.name }}" />
+        </div>
+
+        <hr class="divider" />
+
+        <div class="product-info">
+          <h3>{{ product.name }}</h3>
+          <p class="price">R$ {{ product.price | number:'1.2-2' }}</p>
+
+          <ion-button
+            size="small"
+            expand="block"
+            color="primary"
+            (click)="selectProduct(product)"
+          >
+            Selecionar
+          </ion-button>
+        </div>
+      </div>
+    </div>
   </div>
 </ion-content>

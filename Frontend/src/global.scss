@@ -64,3 +64,8 @@ ion-item {
   --background: var(--ion-item-background) !important;
   color: var(--ion-item-color) !important;
 }
+
+ion-content {
+  transform: translateZ(0) !important;
+  will-change: transform !important;
+}

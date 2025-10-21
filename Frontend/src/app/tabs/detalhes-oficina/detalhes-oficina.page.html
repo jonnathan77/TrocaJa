@@ -1,0 +1,38 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>{{ oficina?.businessName || 'Detalhes da Oficina' }}</ion-title>
+<ion-buttons slot="start">
+  <ion-button (click)="voltar()">
+    <ion-icon name="arrow-back-outline"></ion-icon>
+  </ion-button>
+</ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content *ngIf="oficina">
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>{{ oficina.businessName }}</ion-card-title>
+      <ion-card-subtitle>{{ oficina.nome }}</ion-card-subtitle>
+    </ion-card-header>
+    <ion-card-content>
+      <p><strong>Endereço:</strong> {{ oficina.address }}</p>
+      <p><strong>Telefone:</strong> {{ oficina.telefone }}</p>
+      <p><strong>CNPJ:</strong> {{ oficina.cnpj }}</p>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-list>
+    <ion-list-header>
+      <ion-label>Serviços oferecidos</ion-label>
+    </ion-list-header>
+
+    <ion-item  *ngFor="let servico of oficina.servicosOferecidos">
+      <ion-label style="border: 1px solid #ccc; padding: 10px; border-radius: 10px;" >
+        <h2>{{ servico.nome }}</h2>
+        <p>{{ servico.descricao }}</p>
+        <p><strong>Preço sugerido:</strong> R$ {{ servico.precoSugerido }}</p>
+      </ion-label>
+    </ion-item>
+  </ion-list>
+</ion-content>

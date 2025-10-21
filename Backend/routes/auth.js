@@ -27,6 +27,7 @@ router.post("/login", async function (req, res) {
     const doc = snapshot.docs[0];
     const userData = doc.data();
 
+    console.log("Dados do usuário encontrado:", userData);
     // Compara senha com hash
     const isValid = await bcrypt.compare(password, userData.passwordHash);
     if (!isValid) {

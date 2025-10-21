@@ -12,10 +12,19 @@ const routes: Routes = [
       { path: 'agendamentos', loadChildren: () => import('./agendamentos/agendamentos.module').then(m => m.AgendamentosPageModule) },
       { path: 'veiculos', loadChildren: () => import('./veiculos/veiculos.module').then(m => m.VeiculosPageModule) },
       { path: 'perfil', loadChildren: () => import('./perfil/perfil.module').then(m => m.PerfilPageModule) },
+      { 
+        path: 'detalhes-oficina/:id', 
+        loadComponent: () => import('./detalhes-oficina/detalhes-oficina.page').then(m => m.DetalhesOficinaPage) 
+      },
+      { 
+        path: 'agendar-servico', 
+        loadComponent: () => import('./agendar-servico/agendar-servico.page').then(m => m.AgendarServicoPage) 
+      },
       { path: '', redirectTo: 'home', pathMatch: 'full' }
     ]
   },
-  { path: '', redirectTo: '/tabs/home', pathMatch: 'full' }
+  { path: '', redirectTo: '/tabs/home', pathMatch: 'full' },
+
 ];
 
 @NgModule({

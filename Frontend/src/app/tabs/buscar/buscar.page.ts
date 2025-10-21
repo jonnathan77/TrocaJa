@@ -2,6 +2,9 @@ import { Component, AfterViewInit } from '@angular/core';
 import { Router } from '@angular/router';
 import * as L from 'leaflet';
 import { Geolocation } from '@capacitor/geolocation';
+import * as maplibregl from 'maplibre-gl';
+
+
 interface Service {
   id: string;
   name: string;
@@ -14,15 +17,13 @@ interface Service {
   lng: number;
 }
 
-
 @Component({
   selector: 'app-buscar',
   templateUrl: 'buscar.page.html',
   styleUrls: ['buscar.page.scss'],
-  standalone: false
+  standalone: false,
 })
 export class BuscarPage implements AfterViewInit {
-
   private map!: L.Map;
   private userMarker?: L.Marker;
   private officeMarkers: L.Marker[] = [];
@@ -32,39 +33,88 @@ export class BuscarPage implements AfterViewInit {
   selectedLocation = '';
   maxPrice = 500;
 
-  
   offices = [
-    { name: 'Oficina do João', service: 'Troca de óleo', distance: 1.2 },
-    { name: 'Mecânica Silva', service: 'Mecânica geral', distance: 2.5 },
-    { name: 'Auto Center Car', service: 'Suspensão e freios', distance: 3.1 },
-    { name: 'Oficina Rapidão', service: 'Elétrica automotiva', distance: 0.8 }
+    { id: 1, name: 'Oficina do João', service: 'Troca de óleo', distance: 1.2 },
+    { id: 2,name: 'Mecânica Silva', service: 'Mecânica geral', distance: 2.5 },
+    { id: 3,name: 'Auto Center Car', service: 'Suspensão e freios', distance: 3.1 },
+    { id: 4, name: 'Oficina Rapidão', service: 'Elétrica automotiva', distance: 0.8 },
   ];
-    slideOpts = {
-    slidesPerView: 1.2,   // mostra parte do próximo card
-    spaceBetween: 15,      // espaço entre slides
-    freeMode: true
+  slideOpts = {
+    slidesPerView: 1.2, // mostra parte do próximo card
+    spaceBetween: 15, // espaço entre slides
+    freeMode: true,
   };
 
   filtros: string[] = ['Todos', 'Mecânica Geral', 'Óleo', 'Revisão'];
   filtroSelecionado = 'Todos';
 
   services: Service[] = [
-    { id: 'troca-oleo-1', name: 'Troca de Óleo Premium', description: 'Troca completa com óleo sintético', price: 120, location: 'Centro', category: 'manutencao', icon: 'car-sport', lat: -19.9200, lng: -43.9378 },
-    { id: 'alinhamento-1', name: 'Alinhamento Completo', description: 'Alinhamento e balanceamento de rodas', price: 80, location: 'Zona Sul', category: 'manutencao', icon: 'settings', lat: -19.9300, lng: -43.9400 },
-    { id: 'freios-1', name: 'Revisão de Freios', description: 'Verificação completa', price: 150, location: 'Centro', category: 'reparo', icon: 'stop-circle', lat: -19.9180, lng: -43.9350 },
-    { id: 'bateria-1', name: 'Troca de Bateria', description: 'Instalação de bateria nova', price: 200, location: 'Zona Norte', category: 'reparo', icon: 'battery-charging', lat: -19.9100, lng: -43.9250 },
-    { id: 'diagnostico-1', name: 'Diagnóstico Completo', description: 'Verificação geral do veículo', price: 100, location: 'Centro', category: 'diagnostico', icon: 'medical', lat: -19.9220, lng: -43.9380 }
+    {
+      id: 'troca-oleo-1',
+      name: 'Troca de Óleo Premium',
+      description: 'Troca completa com óleo sintético',
+      price: 120,
+      location: 'Centro',
+      category: 'manutencao',
+      icon: 'car-sport',
+      lat: -19.92,
+      lng: -43.9378,
+    },
+    {
+      id: 'alinhamento-1',
+      name: 'Alinhamento Completo',
+      description: 'Alinhamento e balanceamento de rodas',
+      price: 80,
+      location: 'Zona Sul',
+      category: 'manutencao',
+      icon: 'settings',
+      lat: -19.93,
+      lng: -43.94,
+    },
+    {
+      id: 'freios-1',
+      name: 'Revisão de Freios',
+      description: 'Verificação completa',
+      price: 150,
+      location: 'Centro',
+      category: 'reparo',
+      icon: 'stop-circle',
+      lat: -19.918,
+      lng: -43.935,
+    },
+    {
+      id: 'bateria-1',
+      name: 'Troca de Bateria',
+      description: 'Instalação de bateria nova',
+      price: 200,
+      location: 'Zona Norte',
+      category: 'reparo',
+      icon: 'battery-charging',
+      lat: -19.91,
+      lng: -43.925,
+    },
+    {
+      id: 'diagnostico-1',
+      name: 'Diagnóstico Completo',
+      description: 'Verificação geral do veículo',
+      price: 100,
+      location: 'Centro',
+      category: 'diagnostico',
+      icon: 'medical',
+      lat: -19.922,
+      lng: -43.938,
+    },
   ];
 
   filteredServices: Service[] = [...this.services];
 
   constructor(private router: Router) {}
 
-async ngAfterViewInit() {
+  async ngAfterViewInit() {
     // cria o mapa
     this.map = L.map('map').setView([-19.9167, -43.9345], 13);
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      attribution: '© OpenStreetMap'
+      attribution: '© OpenStreetMap',
     }).addTo(this.map);
 
     // tenta pegar localização via Capacitor
@@ -74,28 +124,44 @@ async ngAfterViewInit() {
       const lng = pos.coords.longitude;
 
       // adiciona marcador do usuário
-      L.marker([lat, lng]).addTo(this.map).bindPopup('Você está aqui').openPopup();
+      L.marker([lat, lng])
+        .addTo(this.map)
+        .bindPopup('Você está aqui')
+        .openPopup();
       this.map.setView([lat, lng], 15);
-
     } catch (err) {
       console.error('Erro ao pegar localização', err);
     }
+
+    const map = new maplibregl.Map({
+      container: 'map',
+      style: 'https://demotiles.maplibre.org/style.json',
+      center: [-46.6333, -23.5505], // São Paulo
+      zoom: 12,
+    });
+
+    new maplibregl.Marker().setLngLat([-46.6333, -23.5505]).addTo(map);
   }
 
-    viewDetails(office: any) {
+  viewDetails(office: any) {
     console.log('Ver detalhes de:', office);
-    // aqui você pode abrir modal ou navegar pra página de detalhes
+    this.router.navigate(['/tabs/detalhes-oficina', office.id]);
+ // ✅ agora vai cair na rota com :id
   }
+
 
   // adiciona marcadores das oficinas (guarda em officeMarkers para manipular)
   private addOfficeMarkers(services: Service[]) {
     // limpar marcadores anteriores
-    this.officeMarkers.forEach(m => this.map.removeLayer(m));
+    this.officeMarkers.forEach((m) => this.map.removeLayer(m));
     this.officeMarkers = [];
 
-    services.forEach(s => {
-      const marker = L.marker([s.lat, s.lng]).addTo(this.map)
-        .bindPopup(`<strong>${s.name}</strong><br>${s.description}<br><em>${s.location}</em><br><b>R$ ${s.price}</b>`);
+    services.forEach((s) => {
+      const marker = L.marker([s.lat, s.lng])
+        .addTo(this.map)
+        .bindPopup(
+          `<strong>${s.name}</strong><br>${s.description}<br><em>${s.location}</em><br><b>R$ ${s.price}</b>`
+        );
       marker.on('click', () => this.goToServiceDetail(s.id));
       this.officeMarkers.push(marker);
     });
@@ -109,23 +175,32 @@ async ngAfterViewInit() {
         return;
       }
       navigator.geolocation.getCurrentPosition(
-        pos => resolve({ lat: pos.coords.latitude, lng: pos.coords.longitude }),
-        err => reject(err),
+        (pos) =>
+          resolve({ lat: pos.coords.latitude, lng: pos.coords.longitude }),
+        (err) => reject(err),
         { enableHighAccuracy: true, timeout: 10000 }
       );
     });
   }
 
   // calcula distância entre 2 coords em metros (Haversine)
-  private haversineDistance(lat1: number, lon1: number, lat2: number, lon2: number) {
-    const toRad = (v: number) => v * Math.PI / 180;
+  private haversineDistance(
+    lat1: number,
+    lon1: number,
+    lat2: number,
+    lon2: number
+  ) {
+    const toRad = (v: number) => (v * Math.PI) / 180;
     const R = 6371000; // raio da Terra em metros
     const dLat = toRad(lat2 - lat1);
     const dLon = toRad(lon2 - lon1);
-    const a = Math.sin(dLat/2) * Math.sin(dLat/2) +
-              Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) *
-              Math.sin(dLon/2) * Math.sin(dLon/2);
-    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+    const a =
+      Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+      Math.cos(toRad(lat1)) *
+        Math.cos(toRad(lat2)) *
+        Math.sin(dLon / 2) *
+        Math.sin(dLon / 2);
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
     return R * c;
   }
 
@@ -141,19 +216,25 @@ async ngAfterViewInit() {
           icon: L.icon({
             iconUrl: 'assets/icon/user-marker.png', // opcional: seu ícone
             iconSize: [32, 32],
-            iconAnchor: [16, 32]
-          })
-        }).addTo(this.map).bindPopup('Você está aqui').openPopup();
+            iconAnchor: [16, 32],
+          }),
+        })
+          .addTo(this.map)
+          .bindPopup('Você está aqui')
+          .openPopup();
       }
 
       // calcula distâncias e filtra
       const nearby = this.services
-        .map(s => ({ service: s, distance: this.haversineDistance(pos.lat, pos.lng, s.lat, s.lng) }))
-        .filter(x => x.distance <= radiusMeters)
-        .sort((a,b) => a.distance - b.distance);
+        .map((s) => ({
+          service: s,
+          distance: this.haversineDistance(pos.lat, pos.lng, s.lat, s.lng),
+        }))
+        .filter((x) => x.distance <= radiusMeters)
+        .sort((a, b) => a.distance - b.distance);
 
       // se quiser mostrar somente os filtrados na lista:
-      this.filteredServices = nearby.map(x => x.service);
+      this.filteredServices = nearby.map((x) => x.service);
 
       // atualiza marcadores no mapa (mostra só os próximos)
       this.addOfficeMarkers(this.filteredServices);
@@ -161,9 +242,8 @@ async ngAfterViewInit() {
       // ajusta bounds para mostrar usuário + oficinas
       const bounds = L.latLngBounds([]);
       bounds.extend([pos.lat, pos.lng]);
-      this.filteredServices.forEach(s => bounds.extend([s.lat, s.lng]));
+      this.filteredServices.forEach((s) => bounds.extend([s.lat, s.lng]));
       this.map.fitBounds(bounds.pad(0.2));
-
     } catch (err) {
       console.error('Erro obtendo localização:', err);
       // fallback: mantém todos os serviços visíveis
@@ -183,16 +263,25 @@ async ngAfterViewInit() {
   }
 
   applyFilters() {
-    this.filteredServices = this.services.filter(service => {
-      const matchesSearch = !this.searchTerm ||
+    this.filteredServices = this.services.filter((service) => {
+      const matchesSearch =
+        !this.searchTerm ||
         service.name.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
-        service.description.toLowerCase().includes(this.searchTerm.toLowerCase());
+        service.description
+          .toLowerCase()
+          .includes(this.searchTerm.toLowerCase());
 
-      const matchesCategory = this.filtroSelecionado === 'Todos' || service.category === this.selectedCategory || service.category === this.filtroSelecionado;
-      const matchesLocation = !this.selectedLocation || service.location === this.selectedLocation;
+      const matchesCategory =
+        this.filtroSelecionado === 'Todos' ||
+        service.category === this.selectedCategory ||
+        service.category === this.filtroSelecionado;
+      const matchesLocation =
+        !this.selectedLocation || service.location === this.selectedLocation;
       const matchesPrice = service.price <= this.maxPrice;
 
-      return matchesSearch && matchesCategory && matchesLocation && matchesPrice;
+      return (
+        matchesSearch && matchesCategory && matchesLocation && matchesPrice
+      );
     });
 
     // atualiza marcadores para os filtrados (se quiser)
@@ -201,6 +290,6 @@ async ngAfterViewInit() {
 
   goToServiceDetail(serviceId: string) {
     console.log('Navigate to service detail:', serviceId);
-    // this.router.navigate(['/service-detail', serviceId]);
+    this.router.navigate(['/service-detail', serviceId]);
   }
 }
