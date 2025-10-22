@@ -5,7 +5,7 @@
 </ion-header>
 
 <ion-content
-  [fullscreen]="true"
+
   class="home-content brand-scroll products-content"
 >
   <ion-header collapse="condense">
@@ -196,7 +196,11 @@
 
     <div class="brand-container">
       <div class="brand-row">
-        <div class="brand-card" *ngFor="let brand of brands">
+        <div
+          class="brand-card"
+          *ngFor="let brand of brands"
+          (click)="openBrandModal(brand)"
+        >
           <ion-avatar class="brand-logo">
             <img [src]="brand.logo" alt="{{ brand.name }}" />
           </ion-avatar>
@@ -207,15 +211,14 @@
 
     <h2 class="section-title">Categorias</h2>
 
-<div class="category-section">
-  <div class="category-row">
-    <div class="category-card" *ngFor="let category of categories">
-      <ion-icon [name]="category.icon" class="category-icon"></ion-icon>
-      <p class="category-name">{{ category.name }}</p>
+    <div class="category-section">
+      <div class="category-row">
+        <div class="category-card" *ngFor="let category of categories">
+          <ion-icon [name]="category.icon" class="category-icon"></ion-icon>
+          <p class="category-name">{{ category.name }}</p>
+        </div>
+      </div>
     </div>
-  </div>
-</div>
-
 
     <h2 class="section-title">Produtos Sugeridos</h2>
 
@@ -243,4 +246,58 @@
       </div>
     </div>
   </div>
+
+  <!-- Modal -->
+  <ion-modal #vehicleModal>
+    <ng-template>
+      <ion-header translucent>
+        <ion-toolbar>
+          <ion-title>Selecionar Veículo</ion-title>
+          <ion-buttons slot="end">
+            <ion-button (click)="closeModal()">Fechar</ion-button>
+          </ion-buttons>
+        </ion-toolbar>
+      </ion-header>
+
+      <ion-content class="ion-padding">
+        <div class="modal-step">
+          <h2>{{ selectedBrand?.name }}</h2>
+          <ion-avatar style="margin: 10px auto">
+            <img [src]="selectedBrand?.logo" alt="{{ selectedBrand?.name }}" />
+          </ion-avatar>
+        </div>
+
+        <ion-item>
+          <ion-label>Modelo</ion-label>
+          <ion-select
+            placeholder="Selecione o modelo"
+            [(ngModel)]="selectedModel"
+          >
+            <ion-select-option *ngFor="let model of mockModels" [value]="model">
+              {{ model }}
+            </ion-select-option>
+          </ion-select>
+        </ion-item>
+
+        <ion-item>
+          <ion-label>Ano</ion-label>
+          <ion-select placeholder="Selecione o ano" [(ngModel)]="selectedYear">
+            <ion-select-option *ngFor="let year of mockYears" [value]="year">
+              {{ year }}
+            </ion-select-option>
+          </ion-select>
+        </ion-item>
+
+        <ion-button
+          expand="block"
+          color="primary"
+          [disabled]="!selectedModel || !selectedYear"
+          (click)="confirmSelection()"
+          style="margin-top: 20px"
+        >
+          Confirmar
+        </ion-button>
+      </ion-content>
+    </ng-template>
+  </ion-modal>
 </ion-content>

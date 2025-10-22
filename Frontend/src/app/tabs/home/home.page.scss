@@ -219,3 +219,22 @@ ion-button {
   color: #333;
   font-size: 1rem;
 }
+
+//MODAL
+ion-modal {
+  --background: #1e1e1e;
+  --color: #ffffff;
+}
+
+.modal-step {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+ion-select, ion-item {
+  --background: #2a2a2a;
+  --color: #ffffff;
+  border-radius: 10px;
+  margin-bottom: 10px;
+}
+

@@ -20,6 +20,7 @@ import { NavController } from '@ionic/angular';
 export class DetalhesOficinaPage implements OnInit {
   oficinaId: string | null = null;
   oficina: any = null;
+  isCurrentUser = true; // depois você trata isso no backend/login
 
   constructor(
     private route: ActivatedRoute,
@@ -40,6 +41,10 @@ export class DetalhesOficinaPage implements OnInit {
 
   voltar() {
     this.navCtrl.back();
+  }
+
+  editarOficina() {
+
   }
 
   async loadOficina(id: string) {

@@ -1,0 +1,118 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="voltar()">
+        <ion-icon name="arrow-back-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title class="ion-text-center">Cardápio Digital 🚗</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="cardapio-digital-content">
+  <div class="section">
+    <h2 class="section-title">Escolha seus produtos</h2>
+    <p class="section-subtitle">
+      Selecione o que deseja realizar no seu veículo
+    </p>
+  </div>
+
+  <!-- CATEGORIA: PNEUS -->
+  <ion-card class="category-card">
+    <ion-card-header>
+      <ion-card-title>Pneus</ion-card-title>
+    </ion-card-header>
+
+    <ion-card-content>
+      <div class="product-item" *ngFor="let pneu of pneus">
+        <img [src]="pneu.image" class="product-img" alt="pneu" />
+        <div class="product-info">
+          <h3 style="color: black;">{{ pneu.name }}</h3>
+          <p>R$ {{ pneu.price | number:'1.2-2' }}</p>
+        </div>
+
+        <ion-button
+          fill="clear"
+          [color]="pneu.selected ? 'success' : 'medium'"
+          (click)="toggleSelect(pneu)"
+        >
+          <ion-icon
+            [name]="pneu.selected ? 'checkmark-circle' : 'ellipse-outline'"
+          ></ion-icon>
+        </ion-button>
+
+        <ion-button fill="clear" color="danger" (click)="removeProduct(pneu)">
+          <ion-icon name="trash-outline"></ion-icon>
+        </ion-button>
+      </div>
+    </ion-card-content>
+  </ion-card>
+
+  <!-- CATEGORIA: TROCA DE ÓLEO -->
+  <ion-card class="category-card">
+    <ion-card-header>
+      <ion-card-title>Troca de Óleo</ion-card-title>
+    </ion-card-header>
+
+    <ion-card-content>
+      <div class="product-item" *ngFor="let oleo of oleos">
+        <img [src]="oleo.image" class="product-img" alt="oleo" />
+        <div class="product-info">
+          <h3 style="color: black;">{{ oleo.name }}</h3>
+          <p>R$ {{ oleo.price | number:'1.2-2' }}</p>
+        </div>
+
+        <ion-button
+          fill="clear"
+          [color]="oleo.selected ? 'success' : 'medium'"
+          (click)="toggleSelect(oleo)"
+        >
+          <ion-icon
+            [name]="oleo.selected ? 'checkmark-circle' : 'ellipse-outline'"
+          ></ion-icon>
+        </ion-button>
+
+        <ion-button fill="clear" color="danger" (click)="removeProduct(oleo)">
+          <ion-icon name="trash-outline"></ion-icon>
+        </ion-button>
+      </div>
+    </ion-card-content>
+  </ion-card>
+
+  <!-- CATEGORIA: FILTRO DE AR -->
+  <ion-card class="category-card">
+    <ion-card-header>
+      <ion-card-title>Filtro de Ar</ion-card-title>
+    </ion-card-header>
+
+    <ion-card-content>
+      <div class="product-item" *ngFor="let filtro of filtros">
+        <img [src]="filtro.image" class="product-img" alt="filtro de ar" />
+        <div class="product-info">
+          <h3 style="color: black;">{{ filtro.name }}</h3>
+          <p>R$ {{ filtro.price | number:'1.2-2' }}</p>
+        </div>
+
+        <ion-button
+          fill="clear"
+          [color]="filtro.selected ? 'success' : 'medium'"
+          (click)="toggleSelect(filtro)"
+        >
+          <ion-icon
+            [name]="filtro.selected ? 'checkmark-circle' : 'ellipse-outline'"
+          ></ion-icon>
+        </ion-button>
+
+        <ion-button fill="clear" color="danger" (click)="removeProduct(filtro)">
+          <ion-icon name="trash-outline"></ion-icon>
+        </ion-button>
+      </div>
+    </ion-card-content>
+  </ion-card>
+
+  <div class="action-footer">
+    <ion-button expand="block" color="primary" (click)="proceed()">
+      Avançar
+    </ion-button>
+  </div>
+</ion-content>

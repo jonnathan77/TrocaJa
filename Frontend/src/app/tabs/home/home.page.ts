@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild  } from '@angular/core';
 import { Router } from '@angular/router';
+import { IonModal } from '@ionic/angular';
 @Component({
   selector: 'app-home',
   templateUrl: 'home.page.html',
@@ -7,6 +8,7 @@ import { Router } from '@angular/router';
   standalone: false,
 })
 export class HomePage {
+  @ViewChild('vehicleModal') vehicleModal!: IonModal;
   fotosServico: string[] = [
     'assets/imagens/home/oficina1.jpg',
     'assets/imagens/home/oficina2.jpg',
@@ -51,6 +53,14 @@ export class HomePage {
     },
   ];
 
+  selectedBrand: any = null;
+  selectedModel: string | null = null;
+  selectedYear: string | null = null;
+
+  // mocks
+  mockModels = ['Civic', 'Corolla', 'Onix'];
+  mockYears = ['2021', '2022', '2023'];
+
   constructor(private router: Router) {}
 
   goToServiceDetail(serviceId: string) {
@@ -73,5 +83,33 @@ export class HomePage {
   selectProduct(produto: any) {
     console.log('Selecionado:', produto);
     // aqui você pode abrir modal, adicionar ao carrinho, etc.
+  }
+
+   // abrir modal ao clicar na marca
+  openBrandModal(brand: any) {
+    this.selectedBrand = brand;
+    this.vehicleModal.present();
+  }
+
+  closeModal() {
+    this.vehicleModal.dismiss();
+  }
+
+  confirmSelection() {
+    console.log('Selecionado:', {
+      marca: this.selectedBrand?.name,
+      modelo: this.selectedModel,
+      ano: this.selectedYear
+    });
+
+    this.vehicleModal.dismiss();
+          this.router.navigate(['/tabs/cardapio-digital'], {
+        queryParams: {
+          brand: this.selectedBrand.name,
+          model: this.selectedModel,
+          year: this.selectedYear,
+        },
+      });
+   // aqui depois você pode navegar para a tela de produtos sugeridos
   }
 }

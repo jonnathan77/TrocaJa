@@ -1,38 +1,88 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>{{ oficina?.businessName || 'Detalhes da Oficina' }}</ion-title>
-<ion-buttons slot="start">
-  <ion-button (click)="voltar()">
-    <ion-icon name="arrow-back-outline"></ion-icon>
-  </ion-button>
-</ion-buttons>
+    <ion-buttons slot="start">
+      <ion-button (click)="voltar()">
+        <ion-icon name="arrow-back-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title class="ion-text-center">
+      {{ oficina?.businessName || 'Detalhes da Oficina' }}
+    </ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content *ngIf="oficina">
+  <!-- Card principal com imagem e nome -->
+  <ion-card class="oficina-header-card">
+    <img
+      [src]="oficina?.imagem || 'assets/img/oficina-placeholder.jpg'"
+      alt="Imagem da Oficina"
+      class="oficina-img"
+    />
+    <ion-card-header>
+      <ion-card-title class="oficina-nome">
+        {{ oficina.businessName }}
+      </ion-card-title>
+      <ion-card-subtitle class="oficina-slogan">
+        {{ oficina.slogan || 'Soluções automotivas de confiança' }}
+      </ion-card-subtitle>
+    </ion-card-header>
+  </ion-card>
+
+  <!-- Contato -->
   <ion-card>
     <ion-card-header>
-      <ion-card-title>{{ oficina.businessName }}</ion-card-title>
-      <ion-card-subtitle>{{ oficina.nome }}</ion-card-subtitle>
+      <ion-card-title>Contato</ion-card-title>
     </ion-card-header>
     <ion-card-content>
-      <p><strong>Endereço:</strong> {{ oficina.address }}</p>
-      <p><strong>Telefone:</strong> {{ oficina.telefone }}</p>
-      <p><strong>CNPJ:</strong> {{ oficina.cnpj }}</p>
+      <p>
+        <strong>Telefone:</strong> {{ oficina.telefone || 'Não informado' }}
+      </p>
+      <p><strong>E-mail:</strong> {{ oficina.email || 'Não informado' }}</p>
     </ion-card-content>
   </ion-card>
 
-  <ion-list>
-    <ion-list-header>
-      <ion-label>Serviços oferecidos</ion-label>
-    </ion-list-header>
+  <!-- Endereço -->
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Endereço</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <p>{{ oficina.address }}</p>
+      <p *ngIf="oficina.cidade && oficina.estado">
+        {{ oficina.cidade }} - {{ oficina.estado }}
+      </p>
+      <p *ngIf="oficina.cep"><strong>CEP:</strong> {{ oficina.cep }}</p>
+    </ion-card-content>
+  </ion-card>
 
-    <ion-item  *ngFor="let servico of oficina.servicosOferecidos">
-      <ion-label style="border: 1px solid #ccc; padding: 10px; border-radius: 10px;" >
-        <h2>{{ servico.nome }}</h2>
-        <p>{{ servico.descricao }}</p>
-        <p><strong>Preço sugerido:</strong> R$ {{ servico.precoSugerido }}</p>
-      </ion-label>
-    </ion-item>
-  </ion-list>
+  <!-- Avaliações -->
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Avaliações dos Clientes</ion-card-title>
+    </ion-card-header>
+    <ion-card-content *ngIf="oficina.avaliacoes?.length; else semAvaliacoes">
+      <ion-list>
+        <ion-item *ngFor="let avaliacao of oficina.avaliacoes">
+          <ion-label>
+            <h3>{{ avaliacao.usuario }}</h3>
+            <p>{{ avaliacao.comentario }}</p>
+            <ion-badge color="warning"> ⭐ {{ avaliacao.nota }}/5 </ion-badge>
+          </ion-label>
+        </ion-item>
+      </ion-list>
+    </ion-card-content>
+
+    <ng-template #semAvaliacoes>
+      <p style="padding: 10px; text-align: center; color: gray">
+        Nenhuma avaliação disponível.
+      </p>
+    </ng-template>
+  </ion-card>
+
+  <div class="action-footer" *ngIf="isCurrentUser">
+    <ion-button class="editar-button" expand="block" (click)="editarOficina()">
+      Editar informações da oficina
+    </ion-button>
+  </div>
 </ion-content>
