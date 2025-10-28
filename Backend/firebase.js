@@ -1,8 +1,12 @@
 const admin = require('firebase-admin');
+const serviceAccontJson = require('./serviceAccountKey.json');
+require('dotenv').config();
 
+console.log('🔍 Raw key:', JSON.stringify(process.env.FIREBASE_PRIVATE_KEY));
 const serviceAccount = {
   type: process.env.FIREBASE_TYPE,
   project_id: process.env.FIREBASE_PROJECT_ID,
+  //private_key: serviceAccontJson.private_key,
   private_key: Buffer.from(process.env.FIREBASE_PRIVATE_KEY_BASE64, 'base64').toString('utf8'),
   client_email: process.env.FIREBASE_CLIENT_EMAIL,
   client_id: process.env.FIREBASE_CLIENT_ID,

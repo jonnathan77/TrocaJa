@@ -2,25 +2,86 @@
   padding: 16px;
 }
 
-ion-card {
-  margin-bottom: 16px;
+/* Estilos do Modal */
+.vehicle-modal {
+  --height: auto;
+  --width: 90%;
+  --max-width: 400px;
+  --border-radius: 16px;
+  
+  ion-header {
+    ion-toolbar {
+      --background: var(--ion-color-primary);
+      --color: var(--ion-color-primary-contrast);
+      
+      ion-title {
+        font-size: 1.2rem;
+        font-weight: 600;
+      }
+    }
+  }
+
+  .modal-content {
+    --background: var(--ion-background-color);
+    
+    .form-container {
+      padding: 16px;
+      
+      ion-item {
+        --background: var(--ion-background-color);
+        --border-color: var(--ion-color-medium);
+        --border-radius: 8px;
+        --padding-start: 0;
+        margin-bottom: 16px;
+        
+        &:last-child {
+          margin-bottom: 0;
+        }
+
+        ion-label {
+          color: var(--ion-color-medium);
+          margin-bottom: 8px;
+        }
+
+        ion-select {
+          width: 100%;
+          --padding-start: 0;
+          --placeholder-color: var(--ion-color-medium);
+          
+          &::part(icon) {
+            color: var(--ion-color-medium);
+          }
+        }
+      }
+    }
+  }
+
+  .footer-actions {
+    --background: var(--ion-background-color);
+    --border-color: var(--ion-color-light);
+    padding: 8px 16px;
+
+    ion-toolbar {
+      --padding-top: 0;
+      --padding-bottom: 0;
+      --min-height: 56px;
+
+      ion-button {
+        margin: 0 4px;
+        height: 42px;
+        font-weight: 500;
+        
+        &[color="success"] {
+          --background: var(--ion-color-success);
+          --color: var(--ion-color-success-contrast);
+        }
+      }
+    }
+  }
 }
 
-ion-item {
-  --padding-start: 16px;
-  --padding-end: 16px;
-}
-
-ion-badge {
-  font-size: 14px;
-}
-
-ion-button {
-  margin: 8px 0;
-}
-
-.home-content{
-   --background: var(--ion-background-color);
+.home-content {
+  --background: var(--ion-background-color);
   color: var(--ion-text-color);
 }
 .services-grid {
@@ -220,21 +281,46 @@ ion-button {
   font-size: 1rem;
 }
 
-//MODAL
-ion-modal {
-  --background: #1e1e1e;
-  --color: #ffffff;
+
+.vehicle-modal {
+  --width: 90%;
+  --height: 80%;
+  --border-radius: 16px;
+  --max-width: 500px;
+  --max-height: 600px;
+  --backdrop-opacity: 0.5;
 }
 
-.modal-step {
-  text-align: center;
-  margin-bottom: 20px;
+/* Modal layout: keep header -> content -> footer vertical flow so
+   selects render in order and the content can scroll if long. */
+.modal-content {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: flex-start;
+  padding: 12px 16px;
+  max-height: var(--max-height, 600px);
+  overflow: auto; /* allow scrolling when there are many selects */
 }
 
-ion-select, ion-item {
-  --background: #2a2a2a;
-  --color: #ffffff;
-  border-radius: 10px;
-  margin-bottom: 10px;
+.form-container {
+  width: 100%;
+  max-width: 420px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
 }
 
+/* Keep footer visible and not overlapping content */
+.footer-actions {
+  position: sticky;
+  bottom: 0;
+  width: 100%;
+  z-index: 20;
+  background: var(--ion-background-color);
+}
+
+/* Make sure ion-selects expand full width inside the modal */
+ion-select {
+  width: 100%;
+}

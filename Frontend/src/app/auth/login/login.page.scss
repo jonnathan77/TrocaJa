@@ -145,3 +145,49 @@ ion-spinner {
     color: #ddd;
   }
 }
+
+ion-content.login-content {
+  --background: #f5f6fa;
+  
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  /* Garante que ocupe toda a altura visível */
+  min-height: 100vh;
+}
+
+.login-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  width: 100%;
+  max-width: 400px; /* largura máxima em telas grandes */
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.logo-section {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.login-card {
+  width: 100%;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+}
+
+.register-section {
+  text-align: center;
+  margin-top: 20px;
+}
+
+/* Em telas menores, ajusta o espaçamento */
+@media (max-width: 768px) {
+  .login-container {
+    padding: 15px;
+  }
+}

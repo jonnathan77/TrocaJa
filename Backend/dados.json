@@ -1,0 +1,68 @@
+{
+  "oficinas": [
+    {
+      "id": 1,
+      "nome": "Jonnathan Auto Motos",
+      "email": "jonnathan@gmail.com",
+      "passwordHash": "$2b$10$bJWGwMtd66XpDtXSMgiLKOpMG4n2nlta3YeVWCcTtLG9jxWsHubrG",
+      "telefone": "31988622840",
+      "businessName": "Jonnathan Auto Motos",
+      "address": "Rua Jaguatirica 123",
+      "cnpj": "79812738912739",
+      "criadoEm": { "_seconds": 1758846487, "_nanoseconds": 263000000 },
+      "userType": "provider",
+      "servicosOferecidos": [1, 2]
+    },
+    {
+      "id": 2,
+      "nome": "Oficina da Maria",
+      "email": "mariaoficina@gmail.com",
+      "passwordHash": "$2b$10$123456abcdefg",
+      "telefone": "31991234567",
+      "businessName": "Oficina da Maria",
+      "address": "Av. Central 45",
+      "cnpj": "12345678901234",
+      "criadoEm": { "_seconds": 1758847100, "_nanoseconds": 0 },
+      "userType": "provider",
+      "servicosOferecidos": [2, 3]
+    }
+  ],
+  "servicos": [
+    {
+      "id": 1,
+      "nome": "Troca de óleo",
+      "descricao": "Substituição de óleo do motor",
+      "precoSugerido": 120
+    },
+    {
+      "id": 2,
+      "nome": "Alinhamento",
+      "descricao": "Alinhamento e balanceamento",
+      "precoSugerido": 80
+    },
+    {
+      "id": 3,
+      "nome": "Revisão geral",
+      "descricao": "Revisão completa do veículo",
+      "precoSugerido": 300
+    }
+  ],
+  "veiculos": [
+    { "id": 1, "proprietarioId": 2, "marca": "Renault", "modelo": "Sandero", "ano": 2010, "placa": "ABC1234" },
+    { "id": 2, "proprietarioId": 2, "marca": "Renault", "modelo": "Sandero", "ano": 2011, "placa": "DEF5678" },
+    { "id": 3, "proprietarioId": 2, "marca": "Honda", "modelo": "CG 160", "ano": 2020, "placa": "GHI9012" },
+    { "id": 4, "proprietarioId": 3, "marca": "Toyota", "modelo": "Corolla", "ano": 2015, "placa": "JKL3456" },
+    { "id": 5, "proprietarioId": 3, "marca": "Chevrolet", "modelo": "Onix", "ano": 2018, "placa": "MNO7890" }
+  ],
+  "agendamentos": [
+    { "id": 1, "usuarioId": 2, "servicoId": 1, "veiculoId": 1, "dataHora": { "_seconds": 1758900000, "_nanoseconds": 0 }, "status": "agendado" },
+    { "id": 2, "usuarioId": 2, "servicoId": 2, "veiculoId": 2, "dataHora": { "_seconds": 1758950000, "_nanoseconds": 0 }, "status": "concluido" },
+    { "id": 3, "usuarioId": 3, "servicoId": 3, "veiculoId": 4, "dataHora": { "_seconds": 1759000000, "_nanoseconds": 0 }, "status": "agendado" }
+  ],
+  "produtos": [
+    { "id": 1, "nome": "Óleo 10W40", "descricao": "Óleo lubrificante motor", "preco": 35 },
+    { "id": 2, "nome": "Filtro de óleo", "descricao": "Filtro para motor 160cc", "preco": 25 },
+    { "id": 3, "nome": "Pneu 185/65R15", "descricao": "Pneu radial", "preco": 350 },
+    { "id": 4, "nome": "Bateria 12V", "descricao": "Bateria automotiva 12V", "preco": 400 }
+  ]
+}

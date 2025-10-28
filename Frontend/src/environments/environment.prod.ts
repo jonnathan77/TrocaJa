@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  urlBackend: 'http://localhost:3000'
+  urlBackend: 'https://trocaja-1.onrender.com'
 };

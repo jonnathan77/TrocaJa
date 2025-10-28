@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, BehaviorSubject } from 'rxjs';
+import { environment } from '../../environments/environment';
 
 export interface User {
   uid?: string;
@@ -17,7 +18,7 @@ export interface User {
   providedIn: 'root',
 })
 export class AuthService {
-  private apiUrl = 'http://localhost:3000/users'; // ajuste conforme backend
+  private apiUrl = environment.urlBackend;
   private currentUserSubject = new BehaviorSubject<User | null>(null);
 
   constructor(private http: HttpClient) {}
@@ -32,7 +33,7 @@ export class AuthService {
   login(email: string, password: string): Observable<User> {
     console.log(`${this.apiUrl}/login`);
 
-    return this.http.post<User>(`${this.apiUrl}/login`, { email, password });
+    return this.http.post<User>(`${this.apiUrl}/users/login`, { email, password });
   }
 
   // Logout
