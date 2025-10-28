@@ -19,7 +19,9 @@ const app = express();
 // Durante desenvolvimento o front pode rodar em vários origins
 // (ionic dev server, capacitor, emulador Android, etc). Aqui permitimos
 // dinamicamente alguns origins comuns e caímos para permissivo em dev.
-const allowedOrigins = [
+const allowedOrigins = [  
+  'https://troca-ja.vercel.app', // 🌐 Produção (Frontend)
+  'https://www.troca-ja.vercel.app',
   'http://localhost:8100', // Ionic dev server
   'http://localhost:4200', // Angular default
   'http://localhost',
