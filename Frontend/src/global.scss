@@ -36,7 +36,7 @@
 /* @import "@ionic/angular/css/palettes/dark.class.css"; */
 @import "@ionic/angular/css/palettes/dark.system.css";
 /* src/theme/global.scss */
-@import './theme/variables.scss';
+@use './theme/variables.scss' as *;
 
 on-app, ion-content {
   --background: var(--ion-background-color) !important;
