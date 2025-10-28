@@ -1,5 +1,5 @@
 const admin = require('firebase-admin');
-const serviceAccontJson = require('./serviceAccountKey.json');
+//const serviceAccontJson = require('./serviceAccountKey.json');
 require('dotenv').config();
 
 console.log('🔍 Raw key:', JSON.stringify(process.env.FIREBASE_PRIVATE_KEY));
