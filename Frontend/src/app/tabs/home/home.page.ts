@@ -65,8 +65,8 @@ export class HomePage implements OnInit, AfterViewInit {
   selectedModel: any = null;
   selectedYear: any = null;
   // mocks
-  mockModels = ['Civic', 'Corolla', 'Onix'];
-  mockYears = ['2021', '2022', '2023'];
+  mockModels = ['Selecione a marca'];
+  mockYears = ['Selecione o modelo'];
 
   constructor(
     private router: Router,
@@ -76,7 +76,6 @@ export class HomePage implements OnInit, AfterViewInit {
   ngOnInit() {
     this.veiculosService.getMarcas().subscribe({
       next: (data) => {
-        console.log('Dados recebidos:', data);
         this.marcas = data;
       },
       error: (err) => console.error('Erro ao buscar marcas:', err),
@@ -137,10 +136,8 @@ export class HomePage implements OnInit, AfterViewInit {
 
   // when user selects a brand inside modal (or when opening modal)
   onBrandChange(event: any) {
-    console.log('onBrandChange event:', event);
     // Pegar o valor selecionado do evento ou usar o brand direto
     const brand = event?.detail?.value || this.selectedBrand;
-    console.log('Brand selecionada:', brand);
 
     if (!brand) {
       console.log('Nenhuma marca selecionada');
@@ -155,12 +152,9 @@ export class HomePage implements OnInit, AfterViewInit {
 
     // se marca tem codigo, buscar modelos via API
     if (brand.codigo) {
-      console.log('Buscando modelos para marca código:', brand.codigo);
       this.veiculosService.getModelos(brand.codigo).subscribe({
         next: (res: any) => {
-          console.log('Resposta modelos:', res);
           this.modelos = res.modelos || res;
-          console.log('Modelos definidos:', this.modelos);
           this.cdr.detectChanges();
         },
         error: (err) => {
@@ -169,18 +163,11 @@ export class HomePage implements OnInit, AfterViewInit {
         },
       });
     } else {
-      console.log('Usando modelos mock');
       this.modelos = this.mockModels.map((m) => ({ nome: m }));
     }
   }
 
   confirmSelection() {
-    console.log('Selecionado:', {
-      marca: this.selectedBrand?.name || this.selectedBrand?.nome,
-      modelo: this.selectedModel,
-      ano: this.selectedYear,
-    });
-
     this.vehicleModal.dismiss();
     this.router.navigate(['/tabs/cardapio-digital'], {
       queryParams: {
@@ -213,10 +200,7 @@ export class HomePage implements OnInit, AfterViewInit {
   }
 
   onModelChange() {
-    console.log('onModelChange - Modelo selecionado:', this.selectedModel);
-
     if (!this.selectedModel) {
-      console.log('Nenhum modelo selecionado');
       return;
     }
 
@@ -227,19 +211,11 @@ export class HomePage implements OnInit, AfterViewInit {
     const codigoMarca = this.selectedBrand?.codigo;
     const codigoModelo = this.selectedModel?.codigo;
 
-    console.log('Códigos para busca:', { codigoMarca, codigoModelo });
 
     if (codigoMarca && codigoModelo) {
-      console.log(
-        'Buscando anos para marca/modelo:',
-        codigoMarca,
-        codigoModelo
-      );
       this.veiculosService.getAnos(codigoMarca, codigoModelo).subscribe({
         next: (res: any) => {
-          console.log('Resposta anos:', res);
           this.anos = res;
-          console.log('Anos definidos:', this.anos);
         },
         error: (err) => {
           console.error('Erro ao buscar anos:', err);
@@ -247,7 +223,6 @@ export class HomePage implements OnInit, AfterViewInit {
         },
       });
     } else {
-      console.log('Usando anos mock');
       this.anos = this.mockYears.map((y) => ({ nome: y }));
     }
   }

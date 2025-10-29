@@ -1,6 +1,5 @@
 import { Component, AfterViewInit } from '@angular/core';
 import { Router } from '@angular/router';
-import * as L from 'leaflet';
 import { Geolocation } from '@capacitor/geolocation';
 import * as maplibregl from 'maplibre-gl';
 
@@ -24,9 +23,9 @@ interface Service {
   standalone: false,
 })
 export class BuscarPage implements AfterViewInit {
-  private map!: L.Map;
-  private userMarker?: L.Marker;
-  private officeMarkers: L.Marker[] = [];
+  map!: maplibregl.Map;
+  userMarker!: maplibregl.Marker;
+  private officeMarkers: maplibregl.Marker[] = [];
 
   searchTerm = '';
   selectedCategory = '';
@@ -110,37 +109,117 @@ export class BuscarPage implements AfterViewInit {
 
   constructor(private router: Router) {}
 
+
   async ngAfterViewInit() {
-    // cria o mapa
-    this.map = L.map('map').setView([-19.9167, -43.9345], 13);
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      attribution: '© OpenStreetMap',
-    }).addTo(this.map);
+  this.map = new maplibregl.Map({
+    container: 'map',
+    style: 'https://api.maptiler.com/maps/streets/style.json?key=5yk0UaZSFs9ENWw7k0dI',
+    center: [-43.9345, -19.9167],
+    zoom: 13,
+  });
 
-    // tenta pegar localização via Capacitor
+    // adiciona controle de zoom
+    this.map.addControl(new maplibregl.NavigationControl());
+
+    // pega localização do usuário
     try {
-      const pos = await Geolocation.getCurrentPosition(); // 👈 aqui usa o capacitor
-      const lat = pos.coords.latitude;
-      const lng = pos.coords.longitude;
+      const pos = await Geolocation.getCurrentPosition();
+      const userLatLng: [number, number] = [pos.coords.longitude, pos.coords.latitude];
 
-      // adiciona marcador do usuário
-      L.marker([lat, lng])
-        .addTo(this.map)
-        .bindPopup('Você está aqui')
-        .openPopup();
-      this.map.setView([lat, lng], 15);
+      this.userMarker = new maplibregl.Marker({ color: 'blue' })
+        .setLngLat(userLatLng)
+        .setPopup(new maplibregl.Popup().setText('Você está aqui'))
+        .addTo(this.map);
+
+      this.map.setCenter(userLatLng);
+      this.map.setZoom(15);
     } catch (err) {
-      console.error('Erro ao pegar localização', err);
+      console.error('Erro ao pegar localização:', err);
     }
 
-    const map = new maplibregl.Map({
-      container: 'map',
-      style: 'https://demotiles.maplibre.org/style.json',
-      center: [-46.6333, -23.5505], // São Paulo
-      zoom: 12,
+    // adiciona marcadores das oficinas
+    this.addOfficeMarkers(this.filteredServices);
+  }
+
+  private addOfficeMarkers(services: Service[]) {
+    // remove marcadores existentes
+    this.officeMarkers.forEach(marker => marker.remove());
+    this.officeMarkers = [];
+
+    // adiciona novos marcadores
+    services.forEach(service => {
+      const element = document.createElement('div');
+      element.className = 'office-marker';
+      element.style.backgroundImage = `url(assets/icon/${service.icon}.png)`;
+      element.style.width = '32px';
+      element.style.height = '32px';
+      element.style.backgroundSize = 'cover';
+      element.style.cursor = 'pointer';
+
+      const marker = new maplibregl.Marker({
+        element: element,
+        anchor: 'bottom'
+      })
+        .setLngLat([service.lng, service.lat])
+        .setPopup(
+          new maplibregl.Popup({ offset: 25 })
+            .setHTML(
+              `<h4>${service.name}</h4>
+               <p>${service.description}</p>
+               <p>Preço: R$ ${service.price.toFixed(2)}</p>`
+            )
+        )
+        .addTo(this.map);
+
+      this.officeMarkers.push(marker);
     });
 
-    new maplibregl.Marker().setLngLat([-46.6333, -23.5505]).addTo(map);
+    services.forEach((s) => {
+      const el = document.createElement('div');
+      el.className = 'office-marker';
+      el.style.background = 'red';
+      el.style.width = '20px';
+      el.style.height = '20px';
+      el.style.borderRadius = '50%';
+      el.style.cursor = 'pointer';
+
+      el.addEventListener('click', () => {
+        alert(`${s.name}\n${s.description}\nR$ ${s.price}`);
+        this.router.navigate(['/service-detail', s.id]);
+      });
+
+      new maplibregl.Marker(el)
+        .setLngLat([s.lng, s.lat])
+        .addTo(this.map);
+    });
+  }
+
+  onSearch(event: any) {
+    this.searchTerm = event.detail.value;
+    this.applyFilters();
+  }
+
+  selecionarFiltro(filtro: string) {
+    this.filtroSelecionado = filtro;
+    this.applyFilters();
+  }
+
+  applyFilters() {
+    this.filteredServices = this.services.filter((service) => {
+      const matchesSearch =
+        !this.searchTerm ||
+        service.name.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
+        service.description.toLowerCase().includes(this.searchTerm.toLowerCase());
+
+      const matchesCategory =
+        this.filtroSelecionado === 'Todos' || service.category === this.filtroSelecionado;
+
+      const matchesPrice = service.price <= this.maxPrice;
+
+      return matchesSearch && matchesCategory && matchesPrice;
+    });
+
+    this.addOfficeMarkers(this.filteredServices);
   }
 
   viewDetails(office: any) {
@@ -149,38 +228,20 @@ export class BuscarPage implements AfterViewInit {
  // ✅ agora vai cair na rota com :id
   }
 
-
-  // adiciona marcadores das oficinas (guarda em officeMarkers para manipular)
-  private addOfficeMarkers(services: Service[]) {
-    // limpar marcadores anteriores
-    this.officeMarkers.forEach((m) => this.map.removeLayer(m));
-    this.officeMarkers = [];
-
-    services.forEach((s) => {
-      const marker = L.marker([s.lat, s.lng])
-        .addTo(this.map)
-        .bindPopup(
-          `<strong>${s.name}</strong><br>${s.description}<br><em>${s.location}</em><br><b>R$ ${s.price}</b>`
-        );
-      marker.on('click', () => this.goToServiceDetail(s.id));
-      this.officeMarkers.push(marker);
-    });
-  }
-
   // pega localização do usuário (navegador) – retorna Promise
-  private getCurrentPosition(): Promise<{ lat: number; lng: number }> {
-    return new Promise((resolve, reject) => {
-      if (!navigator.geolocation) {
-        reject(new Error('Geolocation not supported'));
-        return;
-      }
-      navigator.geolocation.getCurrentPosition(
-        (pos) =>
-          resolve({ lat: pos.coords.latitude, lng: pos.coords.longitude }),
-        (err) => reject(err),
-        { enableHighAccuracy: true, timeout: 10000 }
-      );
-    });
+  private async getCurrentPosition(): Promise<{ lat: number; lng: number }> {
+    try {
+      const coordinates = await Geolocation.getCurrentPosition({
+        enableHighAccuracy: true,
+        timeout: 10000
+      });
+      return {
+        lat: coordinates.coords.latitude,
+        lng: coordinates.coords.longitude
+      };
+    } catch (error) {
+      throw new Error('Erro ao obter localização: ' + error);
+    }
   }
 
   // calcula distância entre 2 coords em metros (Haversine)
@@ -208,20 +269,25 @@ export class BuscarPage implements AfterViewInit {
   async locateUserAndShowNearby(radiusMeters = 5000) {
     try {
       const pos = await this.getCurrentPosition();
+      
       // adiciona/atualiza marcador do usuário
       if (this.userMarker) {
-        this.userMarker.setLatLng([pos.lat, pos.lng]);
+        this.userMarker.setLngLat([pos.lng, pos.lat]);
       } else {
-        this.userMarker = L.marker([pos.lat, pos.lng], {
-          icon: L.icon({
-            iconUrl: 'assets/icon/user-marker.png', // opcional: seu ícone
-            iconSize: [32, 32],
-            iconAnchor: [16, 32],
-          }),
+        const element = document.createElement('div');
+        element.className = 'user-marker';
+        element.style.backgroundImage = 'url(assets/icon/user-marker.png)';
+        element.style.width = '32px';
+        element.style.height = '32px';
+        element.style.backgroundSize = 'cover';
+
+        this.userMarker = new maplibregl.Marker({
+          element: element,
+          anchor: 'bottom'
         })
-          .addTo(this.map)
-          .bindPopup('Você está aqui')
-          .openPopup();
+          .setLngLat([pos.lng, pos.lat])
+          .setPopup(new maplibregl.Popup().setHTML('Você está aqui'))
+          .addTo(this.map);
       }
 
       // calcula distâncias e filtra
@@ -240,10 +306,13 @@ export class BuscarPage implements AfterViewInit {
       this.addOfficeMarkers(this.filteredServices);
 
       // ajusta bounds para mostrar usuário + oficinas
-      const bounds = L.latLngBounds([]);
-      bounds.extend([pos.lat, pos.lng]);
-      this.filteredServices.forEach((s) => bounds.extend([s.lat, s.lng]));
-      this.map.fitBounds(bounds.pad(0.2));
+      const bounds = new maplibregl.LngLatBounds();
+      bounds.extend([pos.lng, pos.lat]);
+      this.filteredServices.forEach((s) => bounds.extend([s.lng, s.lat]));
+      
+      this.map.fitBounds(bounds, {
+        padding: 50
+      });
     } catch (err) {
       console.error('Erro obtendo localização:', err);
       // fallback: mantém todos os serviços visíveis
@@ -252,44 +321,11 @@ export class BuscarPage implements AfterViewInit {
     }
   }
 
-  onSearch(event: any) {
-    this.searchTerm = event.detail.value;
-    this.applyFilters();
-  }
-
-  selecionarFiltro(filtro: string) {
-    this.filtroSelecionado = filtro;
-    this.applyFilters();
-  }
-
-  applyFilters() {
-    this.filteredServices = this.services.filter((service) => {
-      const matchesSearch =
-        !this.searchTerm ||
-        service.name.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
-        service.description
-          .toLowerCase()
-          .includes(this.searchTerm.toLowerCase());
-
-      const matchesCategory =
-        this.filtroSelecionado === 'Todos' ||
-        service.category === this.selectedCategory ||
-        service.category === this.filtroSelecionado;
-      const matchesLocation =
-        !this.selectedLocation || service.location === this.selectedLocation;
-      const matchesPrice = service.price <= this.maxPrice;
-
-      return (
-        matchesSearch && matchesCategory && matchesLocation && matchesPrice
-      );
-    });
-
-    // atualiza marcadores para os filtrados (se quiser)
-    this.addOfficeMarkers(this.filteredServices);
-  }
 
   goToServiceDetail(serviceId: string) {
     console.log('Navigate to service detail:', serviceId);
     this.router.navigate(['/service-detail', serviceId]);
   }
+
+
 }

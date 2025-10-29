@@ -1,0 +1,98 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>Finalizar Agendamento</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <!-- Resumo do Pedido -->
+  <ion-card class="order-summary">
+    <ion-card-header>
+      <ion-card-title>Itens Selecionados</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-list>
+        <ion-item *ngFor="let item of itensSelecionados">
+          <ion-label>
+            <h2>{{ item.nome }}</h2>
+            <p>{{ item.descricao }}</p>
+          </ion-label>
+          <ion-note slot="end" color="primary">
+            R$ {{ item.preco | number:'1.2-2' }}
+          </ion-note>
+        </ion-item>
+        <ion-item lines="none" class="total">
+          <ion-label>
+            <h2>Total</h2>
+          </ion-label>
+          <ion-note slot="end" color="primary">
+            <strong>R$ {{ total | number:'1.2-2' }}</strong>
+          </ion-note>
+        </ion-item>
+      </ion-list>
+    </ion-card-content>
+  </ion-card>
+
+  <!-- Seleção da Oficina -->
+  <ion-card class="workshop-selection">
+    <ion-card-header>
+      <ion-card-title>Escolha a Oficina</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-radio-group [(ngModel)]="oficinaSelecionada">
+        <ion-item *ngFor="let oficina of oficinas" class="workshop-item">
+          <ion-label>
+            <h2>{{ oficina.nome }}</h2>
+            <p>
+              <ion-icon name="location-outline"></ion-icon>
+              {{ oficina.endereco }}
+            </p>
+            <p>
+              <ion-icon name="star"></ion-icon>
+              {{ oficina.avaliacao }} ({{ oficina.totalAvaliacoes }} avaliações)
+            </p>
+          </ion-label>
+          <ion-radio [value]="oficina" slot="start"></ion-radio>
+        </ion-item>
+      </ion-radio-group>
+    </ion-card-content>
+  </ion-card>
+
+  <!-- Seleção da Data -->
+  <ion-card >
+    <ion-card-header>
+      <ion-card-title>Escolha a Data</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-datetime 
+        presentation="date"
+        [(ngModel)]="dataSelecionada"
+        [min]="dataMinima"
+        [max]="dataMaxima"
+        locale="pt-BR"
+        class="custom-datetime">
+      </ion-datetime>
+    </ion-card-content>
+  </ion-card>
+
+  <!-- Observações -->
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Observações</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-textarea
+        [(ngModel)]="observacoes"
+        placeholder="Adicione observações ou instruções especiais..."
+        rows="3"
+        class="custom-textarea">
+      </ion-textarea>
+    </ion-card-content>
+  </ion-card>
+
+  <!-- Botão de Finalizar -->
+  <ion-button expand="block" color="success" (click)="enviarPedido()" class="submit-button">
+    <ion-icon name="checkmark-circle-outline" slot="start"></ion-icon>
+    Confirmar Agendamento
+  </ion-button>
+</ion-content>

@@ -1,0 +1,53 @@
+/* Estilos globais para cards */
+ion-card {
+  ion-card-header {
+    background: linear-gradient(135deg, #0f2027 0%, #2c5364 100%) !important;
+    
+    ion-card-title, ion-card-subtitle {
+      color: #ffffff !important;
+    }
+  }
+}
+
+/* Garantir que todos os ion-icons sejam brancos quando dentro de elementos com fundo escuro */
+ion-toolbar ion-icon,
+ion-card-header ion-icon,
+ion-button ion-icon,
+[color="primary"] ion-icon,
+[color="secondary"] ion-icon {
+  color: #ffffff !important;
+}
+
+/* Garantir que ion-icons em áreas claras sejam brancos apenas quando especificado */
+ion-icon {
+  &:not([color]) {
+    color: #ffffff;
+  }
+}
+
+/* Ajuste para o fundo geral */
+ion-content {
+  --background: #cccccc !important;
+}
+
+/* Ajustes para texto preto em áreas claras */
+ion-item,
+ion-label,
+ion-text,
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  color: #000000;
+}
+
+/* Ajustes para items em cards */
+ion-card {
+  ion-item {
+    --background: #ffffff !important;
+    --color: #000000 !important;
+  }
+}

@@ -57,6 +57,14 @@ const routes: Routes = [
             (m) => m.CardapioDigitalPage
           ),
       },
+      {
+        path: 'checkout',
+        loadComponent: () =>
+          import('./checkout/checkout.page').then(
+            (m) => m.CheckoutPage
+          ),
+      },
+
       { path: '', redirectTo: 'home', pathMatch: 'full' },
     ],
   },
@@ -65,6 +73,6 @@ const routes: Routes = [
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule],
+exports: [RouterModule],
 })
 export class TabsRoutingModule {}

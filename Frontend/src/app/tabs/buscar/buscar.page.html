@@ -12,16 +12,15 @@
   </ion-header>
 
   <div class="container" class="home-content">
-    <!-- Campo de busca -->
-    <ion-searchbar
-      style="border-radius: 20px; color: rgb(187, 187, 187); box-shadow: none"
-      [(ngModel)]="searchTerm"
-      (ionInput)="onSearch($event)"
-      placeholder="Buscar serviços..."
-      show-clear-button="focus"
-    >
-    </ion-searchbar>
-
+    <ion-item fill="outline" style="border-radius: 10px">
+      <ion-icon name="search-outline" slot="start" color="medium"></ion-icon>
+      <ion-input
+        label="Pesquise um serviço especifico"
+        label-placement="floating"
+        placeholder="Digite o serviço:"
+      >
+      </ion-input>
+    </ion-item>
     <!-- Filtros -->
     <!-- <ion-card>
       <ion-card-header>
@@ -108,7 +107,7 @@
     <div>
       <h4>Oficinas Proximas</h4>
     </div>
-<div id="map" style="height: 300px; width: 100%; border-radius: 10px;"></div>
+<div id="map" style="width: 100%; height: 400px;"></div>
 
 <!-- 
     Resultados
@@ -151,7 +150,7 @@
     <ion-card *ngFor="let office of offices">
       <ion-card-header>
         <ion-card-subtitle>{{ office.service }}</ion-card-subtitle>
-        <ion-card-title>{{ office.name }}</ion-card-title>
+        <ion-card-title style="color: rgb(71, 71, 71);">{{ office.name }}</ion-card-title>
       </ion-card-header>
       <ion-card-content>
         <p>Distância: {{ office.distance }} km</p>
