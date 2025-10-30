@@ -25,10 +25,11 @@
 
     <ion-card-content>
       <div class="product-item" *ngFor="let pneu of pneus">
-        <img [src]="pneu.image" class="product-img" alt="pneu" />
+        <img [src]="pneu.imagem" class="product-img" alt="pneu" />
         <div class="product-info">
-          <h3 style="color: black">{{ pneu.name }}</h3>
-          <p>R$ {{ pneu.price | number:'1.2-2' }}</p>
+          <h3 style="color: black">{{ pneu.nome }}</h3>
+          <h4>{{ pneu.descricao}}</h4>
+          <p>R$ {{ pneu.preco | number:'1.2-2' }}</p>
         </div>
 
         <ion-button
@@ -56,10 +57,12 @@
 
     <ion-card-content>
       <div class="product-item" *ngFor="let oleo of oleos">
-        <img [src]="oleo.image" class="product-img" alt="oleo" />
+        <img [src]="oleo.imagem" class="product-img" alt="oleo" />
         <div class="product-info">
-          <h3 style="color: black">{{ oleo.name }}</h3>
-          <p>R$ {{ oleo.price | number:'1.2-2' }}</p>
+          <h3 style="color: black">{{ oleo.nome }}</h3>
+          <h4>{{ oleo.descricao || '' }}
+          </h4>
+          <p>R$ {{ oleo.preco | number:'1.2-2' }}</p>
         </div>
 
         <ion-button
@@ -87,10 +90,11 @@
 
     <ion-card-content>
       <div class="product-item" *ngFor="let filtro of filtros">
-        <img [src]="filtro.image" class="product-img" alt="filtro de ar" />
+        <img [src]="filtro.imagem" class="product-img" alt="filtro de ar" />
         <div class="product-info">
-          <h3 style="color: black">{{ filtro.name }}</h3>
-          <p>R$ {{ filtro.price | number:'1.2-2' }}</p>
+       <h3 style="color: black">{{ filtro.nome }} </h3>
+       <h4>{{ filtro.descricao || '' }}</h4>
+          <p>R$ {{ filtro.preco | number:'1.2-2' }}</p>
         </div>
 
         <ion-button
@@ -114,7 +118,7 @@
     <ion-card-header>
       <ion-card-title>Resumo do orçamento:</ion-card-title>
       <ion-card-title style="color: gray; font-family: poppins"
-        >Total Estimado: R$ 150.00</ion-card-title
+        >Total Estimado: {{ total | currency:'BRL':'symbol':'1.2-2' }}</ion-card-title
       >
       <span
         >OBS: De oficina para oficina o valor pode haver pequenas

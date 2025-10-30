@@ -52,3 +52,12 @@
     border-radius: 4px;
   }
 }
+
+ion-select::part(text),
+ion-select-option {
+  color: black !important;
+}
+
+:host(.md) ion-select-option {
+  color: black !important;
+}

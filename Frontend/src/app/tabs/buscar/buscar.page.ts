@@ -3,7 +3,6 @@ import { Router } from '@angular/router';
 import { Geolocation } from '@capacitor/geolocation';
 import * as maplibregl from 'maplibre-gl';
 
-
 interface Service {
   id: string;
   name: string;
@@ -14,7 +13,9 @@ interface Service {
   icon: string;
   lat: number;
   lng: number;
+  distance?: number; // opcional
 }
+
 
 @Component({
   selector: 'app-buscar',
@@ -31,12 +32,24 @@ export class BuscarPage implements AfterViewInit {
   selectedCategory = '';
   selectedLocation = '';
   maxPrice = 500;
+  selectedOffice: Service | null = null;
+  showOfficeCard = false;
 
   offices = [
     { id: 1, name: 'Oficina do João', service: 'Troca de óleo', distance: 1.2 },
-    { id: 2,name: 'Mecânica Silva', service: 'Mecânica geral', distance: 2.5 },
-    { id: 3,name: 'Auto Center Car', service: 'Suspensão e freios', distance: 3.1 },
-    { id: 4, name: 'Oficina Rapidão', service: 'Elétrica automotiva', distance: 0.8 },
+    { id: 2, name: 'Mecânica Silva', service: 'Mecânica geral', distance: 2.5 },
+    {
+      id: 3,
+      name: 'Auto Center Car',
+      service: 'Suspensão e freios',
+      distance: 3.1,
+    },
+    {
+      id: 4,
+      name: 'Oficina Rapidão',
+      service: 'Elétrica automotiva',
+      distance: 0.8,
+    },
   ];
   slideOpts = {
     slidesPerView: 1.2, // mostra parte do próximo card
@@ -109,14 +122,14 @@ export class BuscarPage implements AfterViewInit {
 
   constructor(private router: Router) {}
 
-
   async ngAfterViewInit() {
-  this.map = new maplibregl.Map({
-    container: 'map',
-    style: 'https://api.maptiler.com/maps/streets/style.json?key=5yk0UaZSFs9ENWw7k0dI',
-    center: [-43.9345, -19.9167],
-    zoom: 13,
-  });
+    this.map = new maplibregl.Map({
+      container: 'map',
+      style:
+        'https://api.maptiler.com/maps/streets/style.json?key=5yk0UaZSFs9ENWw7k0dI',
+      center: [-43.9345, -19.9167],
+      zoom: 13,
+    });
 
     // adiciona controle de zoom
     this.map.addControl(new maplibregl.NavigationControl());
@@ -124,7 +137,10 @@ export class BuscarPage implements AfterViewInit {
     // pega localização do usuário
     try {
       const pos = await Geolocation.getCurrentPosition();
-      const userLatLng: [number, number] = [pos.coords.longitude, pos.coords.latitude];
+      const userLatLng: [number, number] = [
+        pos.coords.longitude,
+        pos.coords.latitude,
+      ];
 
       this.userMarker = new maplibregl.Marker({ color: 'blue' })
         .setLngLat(userLatLng)
@@ -141,58 +157,45 @@ export class BuscarPage implements AfterViewInit {
     this.addOfficeMarkers(this.filteredServices);
   }
 
-  private addOfficeMarkers(services: Service[]) {
-    // remove marcadores existentes
-    this.officeMarkers.forEach(marker => marker.remove());
-    this.officeMarkers = [];
+private addOfficeMarkers(services: Service[]) {
+  // remove marcadores existentes
+  this.officeMarkers.forEach((marker) => marker.remove());
+  this.officeMarkers = [];
 
-    // adiciona novos marcadores
-    services.forEach(service => {
-      const element = document.createElement('div');
-      element.className = 'office-marker';
-      element.style.backgroundImage = `url(assets/icon/${service.icon}.png)`;
-      element.style.width = '32px';
-      element.style.height = '32px';
-      element.style.backgroundSize = 'cover';
-      element.style.cursor = 'pointer';
+  services.forEach((service) => {
+    const element = document.createElement('div');
+    element.className = 'office-marker';
+    element.style.backgroundImage = `url(assets/icon/${service.icon}.png)`;
+    element.style.width = '32px';
+    element.style.height = '32px';
+    element.style.backgroundSize = 'cover';
+    element.style.cursor = 'pointer';
 
-      const marker = new maplibregl.Marker({
-        element: element,
-        anchor: 'bottom'
-      })
-        .setLngLat([service.lng, service.lat])
-        .setPopup(
-          new maplibregl.Popup({ offset: 25 })
-            .setHTML(
-              `<h4>${service.name}</h4>
-               <p>${service.description}</p>
-               <p>Preço: R$ ${service.price.toFixed(2)}</p>`
-            )
-        )
-        .addTo(this.map);
+    const marker = new maplibregl.Marker({
+      element: element,
+      anchor: 'bottom'
+    })
+    .setLngLat([service.lng, service.lat])
+    // 🔹 popup com detalhes direto no mapa
+    .setPopup(
+      new maplibregl.Popup({ offset: 25 }) // distância do marcador
+        .setHTML(`
+          <strong>${service.name}</strong><br>
+          ${service.category}<br>
+          Distância: ${service.distance ?? '—'} km<br>
+          <button onclick="window.location.href='/tabs/detalhes-oficina/${service.id}'">
+            Ver Detalhes
+          </button>
+        `)
+    )
+    .addTo(this.map);
 
-      this.officeMarkers.push(marker);
-    });
+    this.officeMarkers.push(marker);
+  });
 
-    services.forEach((s) => {
-      const el = document.createElement('div');
-      el.className = 'office-marker';
-      el.style.background = 'red';
-      el.style.width = '20px';
-      el.style.height = '20px';
-      el.style.borderRadius = '50%';
-      el.style.cursor = 'pointer';
-
-      el.addEventListener('click', () => {
-        alert(`${s.name}\n${s.description}\nR$ ${s.price}`);
-        this.router.navigate(['/service-detail', s.id]);
-      });
-
-      new maplibregl.Marker(el)
-        .setLngLat([s.lng, s.lat])
-        .addTo(this.map);
-    });
-  }
+  // força MapLibre a redesenhar
+  setTimeout(() => this.map.resize(), 100);
+}
 
   onSearch(event: any) {
     this.searchTerm = event.detail.value;
@@ -209,10 +212,13 @@ export class BuscarPage implements AfterViewInit {
       const matchesSearch =
         !this.searchTerm ||
         service.name.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
-        service.description.toLowerCase().includes(this.searchTerm.toLowerCase());
+        service.description
+          .toLowerCase()
+          .includes(this.searchTerm.toLowerCase());
 
       const matchesCategory =
-        this.filtroSelecionado === 'Todos' || service.category === this.filtroSelecionado;
+        this.filtroSelecionado === 'Todos' ||
+        service.category === this.filtroSelecionado;
 
       const matchesPrice = service.price <= this.maxPrice;
 
@@ -225,7 +231,7 @@ export class BuscarPage implements AfterViewInit {
   viewDetails(office: any) {
     console.log('Ver detalhes de:', office);
     this.router.navigate(['/tabs/detalhes-oficina', office.id]);
- // ✅ agora vai cair na rota com :id
+    // ✅ agora vai cair na rota com :id
   }
 
   // pega localização do usuário (navegador) – retorna Promise
@@ -233,11 +239,11 @@ export class BuscarPage implements AfterViewInit {
     try {
       const coordinates = await Geolocation.getCurrentPosition({
         enableHighAccuracy: true,
-        timeout: 10000
+        timeout: 10000,
       });
       return {
         lat: coordinates.coords.latitude,
-        lng: coordinates.coords.longitude
+        lng: coordinates.coords.longitude,
       };
     } catch (error) {
       throw new Error('Erro ao obter localização: ' + error);
@@ -269,7 +275,7 @@ export class BuscarPage implements AfterViewInit {
   async locateUserAndShowNearby(radiusMeters = 5000) {
     try {
       const pos = await this.getCurrentPosition();
-      
+
       // adiciona/atualiza marcador do usuário
       if (this.userMarker) {
         this.userMarker.setLngLat([pos.lng, pos.lat]);
@@ -278,12 +284,12 @@ export class BuscarPage implements AfterViewInit {
         element.className = 'user-marker';
         element.style.backgroundImage = 'url(assets/icon/user-marker.png)';
         element.style.width = '32px';
-        element.style.height = '32px';
+        element.style.height = '12px';
         element.style.backgroundSize = 'cover';
 
         this.userMarker = new maplibregl.Marker({
           element: element,
-          anchor: 'bottom'
+          anchor: 'bottom',
         })
           .setLngLat([pos.lng, pos.lat])
           .setPopup(new maplibregl.Popup().setHTML('Você está aqui'))
@@ -300,7 +306,12 @@ export class BuscarPage implements AfterViewInit {
         .sort((a, b) => a.distance - b.distance);
 
       // se quiser mostrar somente os filtrados na lista:
-      this.filteredServices = nearby.map((x) => x.service);
+this.filteredServices = nearby.map((x) => ({
+  ...x.service,
+  distance: Number(x.distance.toFixed(2)), // agora é number
+}));
+
+
 
       // atualiza marcadores no mapa (mostra só os próximos)
       this.addOfficeMarkers(this.filteredServices);
@@ -309,9 +320,9 @@ export class BuscarPage implements AfterViewInit {
       const bounds = new maplibregl.LngLatBounds();
       bounds.extend([pos.lng, pos.lat]);
       this.filteredServices.forEach((s) => bounds.extend([s.lng, s.lat]));
-      
+
       this.map.fitBounds(bounds, {
-        padding: 50
+        padding: 50,
       });
     } catch (err) {
       console.error('Erro obtendo localização:', err);
@@ -321,11 +332,8 @@ export class BuscarPage implements AfterViewInit {
     }
   }
 
-
   goToServiceDetail(serviceId: string) {
     console.log('Navigate to service detail:', serviceId);
     this.router.navigate(['/service-detail', serviceId]);
   }
-
-
 }

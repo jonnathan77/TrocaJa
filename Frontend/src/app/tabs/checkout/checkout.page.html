@@ -1,10 +1,14 @@
 <ion-header>
   <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/tabs/cardapio-digital"></ion-back-button>
+    </ion-buttons>
     <ion-title>Finalizar Agendamento</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content class="ion-padding">
+
   <!-- Resumo do Pedido -->
   <ion-card class="order-summary">
     <ion-card-header>
@@ -21,6 +25,7 @@
             R$ {{ item.preco | number:'1.2-2' }}
           </ion-note>
         </ion-item>
+
         <ion-item lines="none" class="total">
           <ion-label>
             <h2>Total</h2>
@@ -30,6 +35,18 @@
           </ion-note>
         </ion-item>
       </ion-list>
+    </ion-card-content>
+  </ion-card>
+
+  <!-- Dados do Veículo -->
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Veículo Selecionado</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <p>Marca: <strong>{{ brand || '-' }}</strong></p>
+      <p>Modelo: <strong>{{ model || '-' }}</strong></p>
+      <p>Ano: <strong>{{ year || '-' }}</strong></p>
     </ion-card-content>
   </ion-card>
 
@@ -59,19 +76,19 @@
   </ion-card>
 
   <!-- Seleção da Data -->
-  <ion-card >
+  <ion-card>
     <ion-card-header>
       <ion-card-title>Escolha a Data</ion-card-title>
     </ion-card-header>
     <ion-card-content>
-      <ion-datetime 
-        presentation="date"
+      <ion-datetime
         [(ngModel)]="dataSelecionada"
         [min]="dataMinima"
         [max]="dataMaxima"
+        presentation="date"
         locale="pt-BR"
-        class="custom-datetime">
-      </ion-datetime>
+        style="color: black; background-color: white;"
+      ></ion-datetime>
     </ion-card-content>
   </ion-card>
 
@@ -85,8 +102,8 @@
         [(ngModel)]="observacoes"
         placeholder="Adicione observações ou instruções especiais..."
         rows="3"
-        class="custom-textarea">
-      </ion-textarea>
+        class="custom-textarea"
+      ></ion-textarea>
     </ion-card-content>
   </ion-card>
 
@@ -95,4 +112,5 @@
     <ion-icon name="checkmark-circle-outline" slot="start"></ion-icon>
     Confirmar Agendamento
   </ion-button>
+
 </ion-content>

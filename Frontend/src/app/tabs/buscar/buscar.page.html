@@ -4,7 +4,7 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content >
+<ion-content>
   <ion-header collapse="condense">
     <ion-toolbar>
       <ion-title size="large">Buscar</ion-title>
@@ -107,50 +107,34 @@
     <div>
       <h4>Oficinas Proximas</h4>
     </div>
-<div id="map" style="width: 100%; height: 400px;"></div>
+<div class="map-wrapper">
+  <div id="map"></div>
+</div>
 
-<!-- 
-    Resultados
-    <ion-card>
-      <ion-card-header>
-        <ion-card-title
-          >Resultados ({{filteredServices.length}})</ion-card-title
-        >
-      </ion-card-header>
+<!-- card fora do mapa -->
+<div *ngIf="showOfficeCard && selectedOffice" class="office-info">
+  <ion-card>
+    <ion-card-header>
+      <ion-card-subtitle>{{ selectedOffice?.category }}</ion-card-subtitle>
+      <ion-card-title>{{ selectedOffice?.name }}</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <p>Distância: {{ selectedOffice?.distance }} km</p>
+      <p>{{ selectedOffice?.description }}</p>
+      <ion-button expand="block" (click)="viewDetails(selectedOffice)">
+        Ver Detalhes
+      </ion-button>
+    </ion-card-content>
+  </ion-card>
+</div>
 
-      <ion-card-content>
-        <ion-list>
-          <ion-item
-            *ngFor="let service of filteredServices"
-            button
-            (click)="goToServiceDetail(service.id)"
-          >
-            <ion-icon [name]="service.icon" slot="start"></ion-icon>
-            <ion-label>
-              <h2>{{service.name}}</h2>
-              <p>{{service.description}}</p>
-              <p><strong>{{service.location}}</strong></p>
-            </ion-label>
-            <ion-badge color="primary" slot="end"
-              >R$ {{service.price}}</ion-badge
-            >
-          </ion-item>
-        </ion-list>
-
-        <div *ngIf="filteredServices.length === 0" class="no-results">
-          <ion-icon name="search-outline" size="large"></ion-icon>
-          <p>Nenhum serviço encontrado</p>
-          <p>Tente ajustar os filtros ou termo de busca</p>
-        </div>
-      </ion-card-content>
-    </ion-card> -->
 
 <div class="horizontal-scroll">
   <div class="cards-wrapper">
     <ion-card *ngFor="let office of offices">
       <ion-card-header>
         <ion-card-subtitle>{{ office.service }}</ion-card-subtitle>
-        <ion-card-title style="color: rgb(71, 71, 71);">{{ office.name }}</ion-card-title>
+        <ion-card-title>{{ office.name }}</ion-card-title>
       </ion-card-header>
       <ion-card-content>
         <p>Distância: {{ office.distance }} km</p>
@@ -159,7 +143,6 @@
     </ion-card>
   </div>
 </div>
-
-
   </div>
+
 </ion-content>

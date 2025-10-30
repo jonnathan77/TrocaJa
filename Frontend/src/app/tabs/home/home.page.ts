@@ -172,10 +172,13 @@ export class HomePage implements OnInit, AfterViewInit {
     this.router.navigate(['/tabs/cardapio-digital'], {
       queryParams: {
         brand: this.selectedBrand?.name || this.selectedBrand?.nome,
-        model: this.selectedModel,
-        year: this.selectedYear,
+        model: this.selectedModel.nome,
+        year: this.selectedYear.nome,
       },
     });
+    console.log(this.selectedBrand?.name || this.selectedBrand?.nome,
+        this.selectedModel,
+        this.selectedYear,);
     // aqui depois você pode navegar para a tela de produtos sugeridos
   }
 

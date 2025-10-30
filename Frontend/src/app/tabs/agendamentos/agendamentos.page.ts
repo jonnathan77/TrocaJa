@@ -1,13 +1,17 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import {
+  AgendamentoService,
+  Agendamento,
+} from '../../services/agendamento.service';
 import { Router } from '@angular/router';
 
-interface Appointment {
+export interface Appointment {
   id: string;
   service: string;
   date: string;
   time: string;
   location: string;
-  status: 'pending' | 'in-progress' | 'completed';
+  status: number; // agora é number (1 ou 2)
 }
 
 @Component({
@@ -16,85 +20,94 @@ interface Appointment {
   styleUrls: ['agendamentos.page.scss'],
   standalone: false,
 })
-export class AgendamentosPage {
+export class AgendamentosPage implements OnInit {
+  upcomingAppointments: Appointment[] = [];
+  completedAppointments: Appointment[] = [];
 
-  upcomingAppointments: Appointment[] = [
-    {
-      id: '1',
-      service: 'Troca de Óleo',
-      date: '15/12/2024',
-      time: '14:00',
-      location: 'Oficina Central',
-      status: 'pending'
-    },
-    {
-      id: '2',
-      service: 'Alinhamento',
-      date: '18/12/2024',
-      time: '10:30',
-      location: 'Oficina Sul',
-      status: 'pending'
-    }
-  ];
+  constructor(
+    private router: Router,
+    private agendamentoService: AgendamentoService
+  ) {}
 
-  completedAppointments: Appointment[] = [
-    {
-      id: '3',
-      service: 'Revisão de Freios',
-      date: '10/12/2024',
-      time: '16:00',
-      location: 'Oficina Central',
-      status: 'completed'
-    },
-    {
-      id: '4',
-      service: 'Troca de Bateria',
-      date: '05/12/2024',
-      time: '09:00',
-      location: 'Oficina Norte',
-      status: 'completed'
-    }
-  ];
+  ngOnInit() {
+    this.carregarAgendamentos();
+  }
 
-  constructor(private router: Router) {}
+  carregarAgendamentos() {
+    this.agendamentoService.getAgendamentos().subscribe({
+      next: (agendamentos: Agendamento[]) => {
+        const now = new Date();
+        this.upcomingAppointments = [];
+        this.completedAppointments = [];
 
-  getStatusIcon(status: string): string {
+        agendamentos.forEach((a) => {
+          console.log(a.dataAgendamento);
+          // Converter a string para Date
+          const dataAgendamento = a.dataAgendamento
+            ? new Date(a.dataAgendamento._seconds * 1000)
+            : new Date();
+
+          const appointment: Appointment = {
+            id: a.id || a.uid || '',
+            service: a.itens?.length
+              ? a.itens.map((i: any) => i.nome).join(', ')
+              : `${a.brand} ${a.model} ${a.year}`, // mostra o carro se não houver itens
+            date: dataAgendamento.toLocaleDateString('pt-BR'),
+            time: dataAgendamento.toLocaleTimeString('pt-BR', {
+              hour: '2-digit',
+              minute: '2-digit',
+            }),
+            location: a.oficina?.nome || 'Não informado',
+            status: Number(a.status), // 1 ou 2
+          };
+
+          if (appointment.status === 1) {
+            this.upcomingAppointments.push(appointment);
+          } else if (appointment.status === 2) {
+            this.completedAppointments.push(appointment);
+          }
+        });
+      },
+      error: (err) => {
+        console.error('Erro ao carregar agendamentos:', err);
+      },
+    });
+  }
+
+  getStatusIcon(status: number): string {
     switch (status) {
-      case 'pending': return 'time';
-      case 'in-progress': return 'refresh';
-      case 'completed': return 'checkmark-circle';
-      default: return 'help';
+      case 1:
+        return 'time'; // pendente
+      case 2:
+        return 'checkmark-circle'; // concluído
+      default:
+        return 'help';
     }
   }
 
-  getStatusColor(status: string): string {
+  getStatusColor(status: number): string {
     switch (status) {
-      case 'pending': return 'warning';
-      case 'in-progress': return 'primary';
-      case 'completed': return 'success';
-      default: return 'medium';
+      case 1:
+        return 'warning'; // pendente
+      case 2:
+        return 'success'; // concluído
+      default:
+        return 'medium';
     }
   }
 
-  getStatusText(status: string): string {
+  getStatusText(status: number): string {
     switch (status) {
-      case 'pending': return 'Pendente';
-      case 'in-progress': return 'Em Andamento';
-      case 'completed': return 'Concluído';
-      default: return 'Desconhecido';
+      case 1:
+        return 'Pendente';
+      case 2:
+        return 'Concluído';
+      default:
+        return 'Desconhecido';
     }
   }
 
   viewAppointmentDetail(appointmentId: string) {
-    // Navigate to appointment detail page
-    console.log('View appointment detail:', appointmentId);
-    // this.router.navigate(['/appointment-detail', appointmentId]);
+    this.router.navigate(['/appointment-detail', appointmentId]);
   }
-
-  scheduleNewAppointment() {
-    // Navigate to schedule new appointment page
-    console.log('Schedule new appointment');
-    // this.router.navigate(['/schedule-appointment']);
-  }
-
 }

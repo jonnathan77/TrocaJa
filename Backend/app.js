@@ -6,7 +6,8 @@ const cookieParser = require('cookie-parser');
 const usersRouter = require('./routes/users');
 const oficinaRouter = require('./routes/oficina');
 const veiculosRouter = require('./routes/veiculos');
-
+const ProdutosRouter = require('./routes/produtos');
+const AgendamentosRouter = require('./routes/agendamento');
 
 const path = require('path');
 const fs = require('fs');
@@ -68,6 +69,10 @@ app.use('/users', usersRouter);
 
 app.use('/oficina', oficinaRouter);
 app.use('/veiculos', veiculosRouter);
+app.use('/produtos', ProdutosRouter);
+app.use('/agendamentos', AgendamentosRouter);
+
+
 
 // ------------------------
 // 3.1️⃣ Servir front-end estático (opcional)

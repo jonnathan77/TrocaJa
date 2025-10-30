@@ -9,7 +9,7 @@
 <ion-content class="home-content">
   <ion-header collapse="condense">
     <ion-toolbar>
-      <ion-title size="large">Agendamentos </ion-title>
+      <ion-title size="large">Agendamentos</ion-title>
     </ion-toolbar>
   </ion-header>
 
@@ -18,7 +18,7 @@
     <ion-card>
       <ion-card-header>
         <ion-card-title>Próximos Agendamentos</ion-card-title>
-        <ion-card-subtitle>{{upcomingAppointments.length}} agendamento(s)</ion-card-subtitle>
+        <ion-card-subtitle>{{ upcomingAppointments.length }} agendamento(s)</ion-card-subtitle>
       </ion-card-header>
       
       <ion-card-content>
@@ -26,12 +26,12 @@
           <ion-item *ngFor="let appointment of upcomingAppointments" button (click)="viewAppointmentDetail(appointment.id)">
             <ion-icon [name]="getStatusIcon(appointment.status)" [color]="getStatusColor(appointment.status)" slot="start"></ion-icon>
             <ion-label>
-              <h2>{{appointment.service}}</h2>
-              <p>{{appointment.date}} às {{appointment.time}}</p>
-              <p>{{appointment.location}}</p>
+              <h2>{{ appointment.service }}</h2>
+              <p>{{ appointment.date }} às {{ appointment.time }}</p>
+              <p>{{ appointment.location }}</p>
             </ion-label>
             <ion-badge [color]="getStatusColor(appointment.status)" slot="end">
-              {{getStatusText(appointment.status)}}
+              {{ getStatusText(appointment.status) }}
             </ion-badge>
           </ion-item>
         </ion-list>
@@ -47,7 +47,7 @@
     <ion-card>
       <ion-card-header>
         <ion-card-title>Histórico de Serviços</ion-card-title>
-        <ion-card-subtitle>{{completedAppointments.length}} serviço(s) realizado(s)</ion-card-subtitle>
+        <ion-card-subtitle>{{ completedAppointments.length }} serviço(s) realizado(s)</ion-card-subtitle>
       </ion-card-header>
       
       <ion-card-content>
@@ -55,9 +55,9 @@
           <ion-item *ngFor="let appointment of completedAppointments" button (click)="viewAppointmentDetail(appointment.id)">
             <ion-icon name="checkmark-circle" color="success" slot="start"></ion-icon>
             <ion-label>
-              <h2>{{appointment.service}}</h2>
-              <p>{{appointment.date}} às {{appointment.time}}</p>
-              <p>{{appointment.location}}</p>
+              <h2>{{ appointment.service }}</h2>
+              <p>{{ appointment.date }} às {{ appointment.time }}</p>
+              <p>{{ appointment.location }}</p>
             </ion-label>
             <ion-badge color="success" slot="end">Concluído</ion-badge>
           </ion-item>

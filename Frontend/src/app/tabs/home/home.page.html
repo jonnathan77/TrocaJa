@@ -249,64 +249,82 @@
     </div>
   </div>
 
-<ion-modal #vehicleModal class="vehicle-modal" [presentingElement]="presentingElement">
-  <ng-template>
-    <ion-header>
-      <ion-toolbar color="primary">
-        <ion-title class="ion-text-center">Selecionar Veículo</ion-title>
-        <ion-buttons slot="end">
-          <ion-button fill="clear" color="light" (click)="closeModal()">
-            <ion-icon name="close-outline"></ion-icon>
-          </ion-button>
-        </ion-buttons>
-      </ion-toolbar>
-    </ion-header>
+  <ion-modal
+    #vehicleModal
+    class="vehicle-modal"
+    [presentingElement]="presentingElement"
+  >
+    <ng-template>
+      <ion-header>
+        <ion-toolbar color="primary">
+          <ion-title class="ion-text-center">Selecionar manualmente</ion-title>
+          <ion-buttons slot="end">
+            <ion-button fill="clear" color="light" (click)="closeModal()">
+              <ion-icon name="close-outline"></ion-icon>
+            </ion-button>
+          </ion-buttons>
+        </ion-toolbar>
+      </ion-header>
 
-    <ion-content class="ion-padding modal-content">
-      <div class="form-container">
-        <ion-item *ngIf="marcas?.length">
-          <ion-label>Marca</ion-label>
-          <ion-select [(ngModel)]="selectedBrand" placeholder="Selecione a marca" (ionChange)="onBrandChange($event)">
-            <ion-select-option *ngFor="let b of marcas" [value]="b">
-              {{ b?.nome }}
-            </ion-select-option>
-          </ion-select>
-        </ion-item>
+      <ion-content class="ion-padding modal-content">
+        <div class="form-container">
+          <ion-item *ngIf="marcas?.length">
+            <ion-label>Marca</ion-label>
+            <ion-select
+              interface="popover"
+              [(ngModel)]="selectedBrand"
+              placeholder="Selecione a marca"
+              (ionChange)="onBrandChange($event)"
+            >
+              <ion-select-option *ngFor="let b of marcas" [value]="b">
+                {{ b?.nome }}
+              </ion-select-option>
+            </ion-select>
+          </ion-item>
 
-        <ion-item *ngIf="modelos?.length">
-          <ion-label>Modelo</ion-label>
-          <ion-select [(ngModel)]="selectedModel" placeholder="Selecione o modelo" (ionChange)="onModelChange()">
+          <ion-item *ngIf="modelos?.length">
+            <ion-label>Modelo</ion-label>
+            <ion-select
+              interface="popover"
+              [(ngModel)]="selectedModel"
+              placeholder="Selecione o modelo"
+              (ionChange)="onModelChange()"
+            >
               <ion-select-option *ngFor="let m of modelos" [value]="m">
                 {{ m?.nome || m }}
               </ion-select-option>
-          </ion-select>
-        </ion-item>
+            </ion-select>
+          </ion-item>
 
-        <ion-item *ngIf="anos?.length">
-          <ion-label>Ano</ion-label>
-          <ion-select [(ngModel)]="selectedYear" placeholder="Selecione o ano">
-            <ion-select-option *ngFor="let a of anos" [value]="a">
-              {{ a?.nome || a }}
-            </ion-select-option>
-          </ion-select>
-        </ion-item>
-      </div>
-    </ion-content>
+          <ion-item *ngIf="anos?.length">
+            <ion-label>Ano</ion-label>
+            <ion-select
+              interface="popover"
+              [(ngModel)]="selectedYear"
+              placeholder="Selecione o ano"
+            >
+              <ion-select-option *ngFor="let a of anos" [value]="a">
+                {{ a?.nome || a }}
+              </ion-select-option>
+            </ion-select>
+          </ion-item>
+        </div>
+      </ion-content>
 
-    <ion-footer class="footer-actions">
-      <ion-toolbar>
-        <ion-buttons slot="end">
-          <ion-button color="medium" fill="clear" (click)="closeModal()">
-            Cancelar
-          </ion-button>
-          <ion-button color="success" (click)="confirmSelection()">
-            Confirmar
-          </ion-button>
-        </ion-buttons>
-      </ion-toolbar>
-    </ion-footer>
-  </ng-template>
-</ion-modal>
-
-
+      <ion-footer class="footer-actions">
+        <ion-toolbar style="border-radius: 10px;">
+          <ion-buttons slot="start">
+            <ion-button color="medium" fill="clear" (click)="closeModal()">
+              Cancelar
+            </ion-button>
+          </ion-buttons>
+          <ion-buttons slot="end">
+            <ion-button color="success" (click)="confirmSelection()">
+              Confirmar
+            </ion-button>
+          </ion-buttons>
+        </ion-toolbar>
+      </ion-footer>
+    </ng-template>
+  </ion-modal>
 </ion-content>

@@ -337,3 +337,37 @@
 ion-select {
   width: 100%;
 }
+
+
+/* 🔹 Espaçamento interno no conteúdo do modal */
+.modal-content {
+  --padding-start: 16px;
+  --padding-end: 16px;
+}
+
+/* 🔹 Deixa os itens mais “respiráveis” */
+.form-container ion-item {
+  margin-bottom: 12px;
+  border-radius: 8px;
+  --inner-padding-end: 8px;
+  --inner-padding-start: 8px;
+}
+
+/* 🔹 Dá mais espaço entre o label e o select */
+.form-container ion-label {
+  min-width: 90px; /* Ajuste conforme o tamanho do texto dos labels */
+  flex-shrink: 0;  /* Impede o label de encolher */
+}
+
+/* 🔹 Faz o select ocupar o restante do espaço */
+.form-container ion-select {
+  flex: 1;
+  margin-left: 8px;
+}
+
+/* 🔹 (Opcional) deixa o texto sempre preto dentro dos selects */
+ion-select::part(text),
+ion-select-popover ion-item,
+ion-select-popover ion-label {
+  color: black !important;
+}

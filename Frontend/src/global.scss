@@ -68,3 +68,9 @@ ion-content {
   transform: translateZ(0) !important;
   will-change: transform !important;
 }
+
+ion-select::part(text),
+ion-select-option {
+  color: black !important;
+}
+
